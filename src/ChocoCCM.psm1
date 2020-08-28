@@ -1,0 +1,1 @@
+Get-ChildItem .\Public\*.ps1 | % { . $_.Fullname }
