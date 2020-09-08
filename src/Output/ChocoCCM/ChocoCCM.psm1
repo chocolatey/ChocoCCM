@@ -901,12 +901,12 @@ function Get-CCMOutdatedPackageMember {
         [parameter()]
         [ArgumentCompleter(
             {
-                param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMSoftware -All | Where-Object { $_.isOutdated -eq $true}).Name
+                param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
+                $r = (Get-CCMSoftware -All | Where-Object { $_.isOutdated -eq $true }).Name
                 
 
-                If($WordToComplete){
-                    $r.Where{$_ -match "^$WordToComplete"}
+                If ($WordToComplete) {
+                    $r.Where{ $_ -match "^$WordToComplete" }
                 }
 
                 Else {
@@ -921,12 +921,12 @@ function Get-CCMOutdatedPackageMember {
         [parameter()]
         [ArgumentCompleter(
             {
-                param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMSoftware -All | Where-Object { $_.isOutdated -eq $true}).packageId
+                param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
+                $r = (Get-CCMSoftware -All | Where-Object { $_.isOutdated -eq $true }).packageId
                 
 
-                If($WordToComplete){
-                    $r.Where{$_ -match "^$WordToComplete"}
+                If ($WordToComplete) {
+                    $r.Where{ $_ -match "^$WordToComplete" }
                 }
 
                 Else {
@@ -940,49 +940,60 @@ function Get-CCMOutdatedPackageMember {
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
     process {
 
-        if($Software){
-            $id = Get-CCMSoftware -Software $Software | Select-Object -ExpandProperty id
+        if ($Software) {
+            $id = Get-CCMSoftware -Software $Software | Select-Object -ExpandProperty softwareId
 
         }
 
-        if($Package){
-            $id = Get-CCMSoftware -Package $Package | Select-Object -ExpandProperty id
+        if ($Package) {
+            $id = Get-CCMSoftware -Package $Package | Select-Object -ExpandProperty softwareId
 
         }
-        $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$id&skipCount=0&maxResultCount=100"
-            Method = "GET"
-            ContentType = "application/json"
-            WebSession = $Session
-        }
 
-        try {
-            $record = Invoke-RestMethod @irmParams -ErrorAction Stop
-        } catch {
-            $_.Exception.Message
-        }
+        $id | Foreach-Object {
+            $irmParams = @{
+                Uri         = "$($protocol)://$hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$($_)&skipCount=0&maxResultCount=100"
+                Method      = "GET"
+                ContentType = "application/json"
+                WebSession  = $Session
+            }
 
-        $record.result.items| Foreach-Object {
-            [pscustomobject]@{
-                softwareId = $_.softwareId
-                software = $_.software.name
-                packageName = $_.software.packageId
-                packageVersion = $_.software.packageVersion
-                name = $_.computer.name
-                friendlyName = $_.computer.friendlyName
-                ipaddress = $_.computer.ipaddress
-                fqdn = $_.computer.fqdn
-                computerid = $_.computer.id
-    
+            try {
+                $record = Invoke-RestMethod @irmParams -ErrorAction Stop
+            }
+            catch {
+                $_.Exception.Message
+            }
+
+            $record.result.items | Foreach-Object {
+                [pscustomobject]@{
+                    softwareId     = $_.softwareId
+                    software       = $_.software.name
+                    packageName    = $_.software.packageId
+                    packageVersion = $_.software.packageVersion
+                    name           = $_.computer.name
+                    friendlyName   = $_.computer.friendlyName
+                    ipaddress      = $_.computer.ipaddress
+                    fqdn           = $_.computer.fqdn
+                    computerid     = $_.computer.id
+                
+                }
+                
             }
         }
+    }
+}
+function Get-CCMOutdatedSoftware {
 
+    process {
+        $r = Get-CCMSoftware | Where-Object { $_.isOutdated -eq $true}
+        $r
     }
 }
 function Get-CCMOutdatedSoftwareReport {
@@ -1178,16 +1189,11 @@ Function Get-CCMSoftware {
     [cmdletBinding(DefaultParameterSetName = "All")]
     Param(
             
-
-        [Parameter(Mandatory, ParameterSetName = "All")]
-        [Switch]
-        $All,
-
         [Parameter(Mandatory, ParameterSetName = "Software")]
         [string]
         $Software,
         
-        [Parameter(Mandatory,ParameterSetName = "Package")]
+        [Parameter(Mandatory, ParameterSetName = "Package")]
         [string]
         $Package,
 
@@ -1198,7 +1204,7 @@ Function Get-CCMSoftware {
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
@@ -1210,16 +1216,13 @@ Function Get-CCMSoftware {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-                $records.result.items
-            }
 
             "Software" {
-                $softwareId = $records.result.items | Where-Object {$_.name -eq "$Software"} | Select-Object -ExpandProperty Id
+                $softwareId = $records.result.items | Where-Object { $_.name -eq "$Software" } | Select-Object -ExpandProperty Id
 
                 $irmParams = @{
                     WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$softwareID&skipCount=0&maxResultCount=500"
+                    Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$softwareID&skipCount=0&maxResultCount=500"
                 }
                 
                 $records = Invoke-RestMethod @irmParams
@@ -1228,25 +1231,31 @@ Function Get-CCMSoftware {
             }
 
             "Package" {
-                $packageId = $records.result.items | Where-Object {$_.packageId -eq "$Package"} | Select-Object -ExpandProperty id
+                $packageId = $records.result.items | Where-Object { $_.packageId -eq "$Package" } | Select-Object -ExpandProperty id
 
-                $irmParams = @{
-                    WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$packageID&skipCount=0&maxResultCount=500"
-                }
+                $packageId | ForEach-Object {
+                    $irmParams = @{
+                        WebSession = $Session
+                        Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$($_)&skipCount=0&maxResultCount=500"
+                    }
                 
-                $records = Invoke-RestMethod @irmParams
-                $records.result.items
+                    $records = Invoke-RestMethod @irmParams
+                    $records.result.items
+                }
             }
 
             "Id" {
 
                 $irmParams = @{
                     WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$Id&skipCount=0&maxResultCount=500"
+                    Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$Id&skipCount=0&maxResultCount=500"
                 }
                 $records = Invoke-RestMethod @irmParams
-                $records.result
+                $records.result.items
+            }
+
+            default {
+                $records.result.items
             }
 
         }
