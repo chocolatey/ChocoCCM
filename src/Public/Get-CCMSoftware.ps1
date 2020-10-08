@@ -35,16 +35,11 @@ Function Get-CCMSoftware {
     [cmdletBinding(DefaultParameterSetName = "All")]
     Param(
             
-
-        [Parameter(Mandatory, ParameterSetName = "All")]
-        [Switch]
-        $All,
-
         [Parameter(Mandatory, ParameterSetName = "Software")]
         [string]
         $Software,
         
-        [Parameter(Mandatory,ParameterSetName = "Package")]
+        [Parameter(Mandatory, ParameterSetName = "Package")]
         [string]
         $Package,
 
@@ -55,7 +50,7 @@ Function Get-CCMSoftware {
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
@@ -67,16 +62,13 @@ Function Get-CCMSoftware {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-                $records.result.items
-            }
 
             "Software" {
-                $softwareId = $records.result.items | Where-Object {$_.name -eq "$Software"} | Select-Object -ExpandProperty Id
+                $softwareId = $records.result.items | Where-Object { $_.name -eq "$Software" } | Select-Object -ExpandProperty Id
 
                 $irmParams = @{
                     WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$softwareID&skipCount=0&maxResultCount=500"
+                    Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$softwareID&skipCount=0&maxResultCount=500"
                 }
                 
                 $records = Invoke-RestMethod @irmParams
@@ -85,25 +77,31 @@ Function Get-CCMSoftware {
             }
 
             "Package" {
-                $packageId = $records.result.items | Where-Object {$_.packageId -eq "$Package"} | Select-Object -ExpandProperty id
+                $packageId = $records.result.items | Where-Object { $_.packageId -eq "$Package" } | Select-Object -ExpandProperty id
 
-                $irmParams = @{
-                    WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$packageID&skipCount=0&maxResultCount=500"
-                }
+                $packageId | ForEach-Object {
+                    $irmParams = @{
+                        WebSession = $Session
+                        Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$($_)&skipCount=0&maxResultCount=500"
+                    }
                 
-                $records = Invoke-RestMethod @irmParams
-                $records.result.items
+                    $records = Invoke-RestMethod @irmParams
+                    $records.result.items
+                }
             }
 
             "Id" {
 
                 $irmParams = @{
                     WebSession = $Session
-                    Uri = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$Id&skipCount=0&maxResultCount=500"
+                    Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$Id&skipCount=0&maxResultCount=500"
                 }
                 $records = Invoke-RestMethod @irmParams
-                $records.result
+                $records.result.items
+            }
+
+            default {
+                $records.result.items
             }
 
         }
