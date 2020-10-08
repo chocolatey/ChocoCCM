@@ -14,7 +14,7 @@ Returns information about software tracked inside of CCM
 
 ### All (Default)
 ```
-Get-CCMSoftware [-All] [<CommonParameters>]
+Get-CCMSoftware [<CommonParameters>]
 ```
 
 ### Software
@@ -58,21 +58,6 @@ Get-CCMSoftware -Id 37
 ```
 
 ## PARAMETERS
-
-### -All
-Return a list of all currently tracked software
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: All
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Software
 Return information about a specific piece of software by friendly name
