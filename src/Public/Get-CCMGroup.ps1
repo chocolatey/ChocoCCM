@@ -27,9 +27,6 @@ function Get-CCMGroup {
     #>
     [cmdletBinding(DefaultParameterSetName = "All")]
     param(
-        [parameter(Mandatory, ParameterSetName = "All")]
-        [switch]
-        $All,
 
         [parameter(Mandatory, ParameterSetName = "Group")]
         [string[]]
@@ -55,11 +52,6 @@ function Get-CCMGroup {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-
-                $records.result
-
-            }
 
             "Group" {
 
@@ -70,6 +62,12 @@ function Get-CCMGroup {
             "Id" {
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/Groups/GetGroupForEdit?Id=$Id" -WebSession $Session
                 $records.result
+            }
+
+            default {
+
+                $records.result
+
             }
 
         }

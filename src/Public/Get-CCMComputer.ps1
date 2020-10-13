@@ -29,11 +29,6 @@ Function Get-CCMComputer {
     #>
     [cmdletBinding(DefaultParameterSetName = "All")]
     Param(
-            
-
-        [Parameter(Mandatory, ParameterSetName = "All")]
-        [Switch]
-        $All,
 
         [Parameter(Mandatory, ParameterSetName = "Computer")]
         [string]
@@ -61,11 +56,7 @@ Function Get-CCMComputer {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-
-                $records.result
-
-            }
+          
 
             "Computer" {
 
@@ -79,6 +70,13 @@ Function Get-CCMComputer {
                 $records
 
             }
+
+            default {
+                
+                $records.result
+    
+            }
+            
 
         }
        
