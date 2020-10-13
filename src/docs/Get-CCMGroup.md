@@ -14,7 +14,7 @@ Returns group information for your CCM installation
 
 ### All (Default)
 ```
-Get-CCMGroup [-All] [<CommonParameters>]
+Get-CCMGroup [<CommonParameters>]
 ```
 
 ### Group
@@ -48,21 +48,6 @@ Get-CCMGroup -Group 'Web Servers'
 ```
 
 ## PARAMETERS
-
-### -All
-Returns all groups
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: All
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Group
 Returns group with the provided name

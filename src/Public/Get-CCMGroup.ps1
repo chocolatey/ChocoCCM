@@ -6,9 +6,6 @@ function Get-CCMGroup {
     .DESCRIPTION
     Returns information about the groups created in your CCM Installation
     
-    .PARAMETER All
-    Returns all groups
-    
     .PARAMETER Group
     Returns group with the provided name
     
@@ -16,7 +13,7 @@ function Get-CCMGroup {
     Returns group withe the provided id
     
     .EXAMPLE
-    Get-CCMGroup -All
+    Get-CCMGroup
 
     .EXAMPLE
     Get-CCMGroup -Id 1

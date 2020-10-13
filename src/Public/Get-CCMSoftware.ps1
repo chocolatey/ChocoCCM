@@ -6,9 +6,6 @@ Function Get-CCMSoftware {
     .DESCRIPTION
     Return information about each piece of software managed across all of your estate inside Central Management
     
-    .PARAMETER All
-    Return a list of all currently tracked software
-    
     .PARAMETER Software
     Return information about a specific piece of software by friendly name
 
@@ -19,7 +16,7 @@ Function Get-CCMSoftware {
     Return information about a specific piece of software by id
     
     .EXAMPLE
-    Get-CCMSoftware -All
+    Get-CCMSoftware
 
     .EXAMPLE
     Get-CCMSoftware -Software 'VLC Media Player'
