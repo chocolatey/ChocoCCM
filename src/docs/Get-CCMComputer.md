@@ -14,7 +14,7 @@ Returns information about computers in CCM
 
 ### All (Default)
 ```
-Get-CCMComputer [-All] [<CommonParameters>]
+Get-CCMComputer [<CommonParameters>]
 ```
 
 ### Computer
@@ -48,21 +48,6 @@ Get-CCMComputer -Id 13
 ```
 
 ## PARAMETERS
-
-### -All
-Returns all computers
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: All
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -Computer
 Returns the specified computer(s)

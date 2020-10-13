@@ -6,9 +6,6 @@ function Get-CCMGroup {
     .DESCRIPTION
     Returns information about the groups created in your CCM Installation
     
-    .PARAMETER All
-    Returns all groups
-    
     .PARAMETER Group
     Returns group with the provided name
     
@@ -16,7 +13,7 @@ function Get-CCMGroup {
     Returns group withe the provided id
     
     .EXAMPLE
-    Get-CCMGroup -All
+    Get-CCMGroup
 
     .EXAMPLE
     Get-CCMGroup -Id 1
@@ -27,9 +24,6 @@ function Get-CCMGroup {
     #>
     [cmdletBinding(DefaultParameterSetName = "All")]
     param(
-        [parameter(Mandatory, ParameterSetName = "All")]
-        [switch]
-        $All,
 
         [parameter(Mandatory, ParameterSetName = "Group")]
         [string[]]
@@ -55,11 +49,6 @@ function Get-CCMGroup {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-
-                $records.result
-
-            }
 
             "Group" {
 
@@ -70,6 +59,12 @@ function Get-CCMGroup {
             "Id" {
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/Groups/GetGroupForEdit?Id=$Id" -WebSession $Session
                 $records.result
+            }
+
+            default {
+
+                $records.result
+
             }
 
         }

@@ -6,9 +6,6 @@ Function Get-CCMComputer {
     .DESCRIPTION
     Query for all, or by computer name/id to retrieve information about the system as reported in Central Management
     
-    .PARAMETER All
-    Returns all computers
-    
     .PARAMETER Computer
     Returns the specified computer(s)
     
@@ -16,7 +13,7 @@ Function Get-CCMComputer {
     Returns the information for the computer with the specified id
     
     .EXAMPLE
-    Get-CCMComputer -All
+    Get-CCMComputer
 
     .EXAMPLE
     Get-CCMComputer -Computer web1
@@ -29,11 +26,6 @@ Function Get-CCMComputer {
     #>
     [cmdletBinding(DefaultParameterSetName = "All")]
     Param(
-            
-
-        [Parameter(Mandatory, ParameterSetName = "All")]
-        [Switch]
-        $All,
 
         [Parameter(Mandatory, ParameterSetName = "Computer")]
         [string]
@@ -61,11 +53,7 @@ Function Get-CCMComputer {
         } 
         
         Switch ($PSCmdlet.ParameterSetName) {
-            "All" {
-
-                $records.result
-
-            }
+          
 
             "Computer" {
 
@@ -79,6 +67,13 @@ Function Get-CCMComputer {
                 $records
 
             }
+
+            default {
+                
+                $records.result
+    
+            }
+            
 
         }
        
