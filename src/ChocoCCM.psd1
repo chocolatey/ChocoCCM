@@ -12,7 +12,7 @@
 RootModule = 'ChocoCCM.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.1.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -30,7 +30,7 @@ CompanyName = 'Unknown'
 Copyright = 'Chocolatey Software, Inc.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license.'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
