@@ -10,20 +10,25 @@ Param(
 
     [Parameter()]
     [Switch]
-    $Deploy
+    $Deploy,
+
+    [Parameter()]
+    [Switch]
+    $TestDeploy
 )
 
 
 
 process {
+    $root = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-    Switch($true){
+    Switch ($true) {
 
         $Test {}
-        $Build {
-            $root = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-            If(Test-Path $root\Output){
+        $Build {
+
+            If (Test-Path $root\Output) {
                 
                 Remove-Item $root\Output -Recurse -Force
 
@@ -41,7 +46,48 @@ process {
 
         }
 
-        $Deploy {}
+        $TestDeploy {
+
+            if (Test-Path $root\Artifact) {
+                Remove-Item $root\Artifact -Recurse -Force
+            }
+
+            New-Item $root\Artifact -ItemType Directory
+
+            if ('Artifacts' -notin (Get-PSRepository).Name) {
+                $testRepo = @{
+                    Name               = 'Artifacts'
+                    PublishLocation    = "$(Resolve-Path $root\Artifact)"
+                    SourceLocation     = "$(Resolve-Path $root\Output\ChocoCCM)"
+                    InstallationPolicy = 'Trusted'
+                }
+
+                Register-PSRepository @testRepo
+
+            }
+
+            $psdFile = Resolve-Path "$root\Output\ChocoCCM"
+            $publishParams = @{
+                Path        = $psdFile
+                Repository  = 'Artifacts'
+                NugetApiKey = 'FileSystem'
+            }
+
+            Publish-Module @publishParams
+
+        }
+
+        $Deploy {
+
+            $psdFile = Resolve-Path "$root\Output\ChocoCCM"
+            
+            $publishParams = @{
+                Path        = $psdFile
+                NugetApiKey = $env:Nugetkey
+            }
+
+            Publish-Module @publishParams
+        }
 
     }
 }
