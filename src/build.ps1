@@ -24,7 +24,11 @@ process {
 
     Switch ($true) {
 
-        $Test {}
+        $Test {
+            Install-Module Pester -MaximumVersion 4.99 -SkipPublisherCheck -Force
+            Import-Module Pester
+            Invoke-Pester (Resolve-Path "$root\Tests") -OutputFile "$($env:Build_ArtifactStagingDirectory)\test.results.xml" -OutputFormat NUnitXml
+        }
 
         $Build {
 
@@ -54,11 +58,11 @@ process {
 
             New-Item $root\Artifact -ItemType Directory
 
-            if ('Artifacts' -notin (Get-PSRepository).Name) {
+            if ('ChocoCCM' -notin (Get-PSRepository).Name) {
                 $testRepo = @{
-                    Name               = 'Artifacts'
-                    PublishLocation    = "$(Resolve-Path $root\Artifact)"
-                    SourceLocation     = "$(Resolve-Path $root\Output\ChocoCCM)"
+                    Name               = 'ChocoCCM'
+                    PublishLocation    = "$env:RepoUrl"
+                    SourceLocation     = "$env:RepoUrl"
                     InstallationPolicy = 'Trusted'
                 }
 
@@ -69,8 +73,8 @@ process {
             $psdFile = Resolve-Path "$root\Output\ChocoCCM"
             $publishParams = @{
                 Path        = $psdFile
-                Repository  = 'Artifacts'
-                NugetApiKey = 'FileSystem'
+                Repository  = 'ChocoCCM'
+                NugetApiKey = '$env:NugetApiKey'
             }
 
             Publish-Module @publishParams
