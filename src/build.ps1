@@ -96,7 +96,7 @@ if(-not (Test-Path $env:ChocolateyInstall\license\chocolatey.license.xml)){
             
             $publishParams = @{
                 Path        = $psdFile
-                NugetApiKey = $env:Nugetkey
+                NugetApiKey = $env:NugetApiKey
             }
 
             Publish-Module @publishParams
