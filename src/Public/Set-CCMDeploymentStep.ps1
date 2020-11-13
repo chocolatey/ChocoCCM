@@ -1,4 +1,59 @@
 function Set-CCMDeploymentStep {
+    <#
+    .SYNOPSIS
+    Modify a Deployment Step of a Central Management Deployment
+    
+    .DESCRIPTION
+    Modify a Deployment Step of a Central Management Deployment
+    
+    .PARAMETER Deployment
+    The Deployment to modify
+    
+    .PARAMETER Step
+    The step to modify
+    
+    .PARAMETER TargetGroup
+    Set the target group of the deployment
+    
+    .PARAMETER ExecutionTimeoutSeconds
+    Modify the execution timeout of the deployment in seconds
+    
+    .PARAMETER FailOnError
+    Set the FailOnError flag for the deployment step
+    
+    .PARAMETER RequireSuccessOnAllComputers
+    Set the RequreSuccessOnAllComputers for the deployment step
+    
+    .PARAMETER ValidExitCodes
+    Set valid exit codes for the deployment
+    
+    .PARAMETER ChocoCommand
+    For a basic step, set the choco command to execute. Install, Upgrade, or Uninstall
+    
+    .PARAMETER PackageName
+    For a basic step, the choco package to use in the deployment
+    
+    .PARAMETER Script
+    For an advanced step, this is a script block of PowerShell code to execute in the step
+    
+    .EXAMPLE
+    Set-CCMDeploymentStep -Deployment 'Google Chrome Upgrade' -Step 'Upgrade' -TargetGroup LabPCs -ExecutionTimeoutSeconds 14400 -ChocoCommand Upgrade -PackageName googlechrome
+
+    .EXAMPLE
+    $stepParams = @{
+        Deployment = 'OS Version'
+        Step = 'Gather Info'
+        TargetGroup = 'US-East servers'
+        Script = { $data = Get-WMIObject win32_OperatingSystem
+                    [pscustomobject]@{
+                        Name = $data.caption
+                        Version = $data.version
+                    }
+        }
+    }
+
+    Set-CCMDeploymentStep @stepParams
+    #>
     [cmdletBinding(DefaultParameterSetName="Dumby")]
     param(
         [parameter(Mandatory)]

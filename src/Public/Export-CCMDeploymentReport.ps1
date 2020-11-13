@@ -1,10 +1,10 @@
-function Export-CCMDeploymentDetail {
+function Export-CCMDeploymentReport {
     <#
     .SYNOPSIS
-    Downloads a deployment report from Central Management
+    Downloads a deployment report from Central Management. This will be saved in the path you specify for OutputFolder
     
     .DESCRIPTION
-    Downloads a deployment report from Central Management in PDF or Excel format
+    Downloads a deployment report from Central Management in PDF or Excel format. The file is saved to the OutputFolder
     
     .PARAMETER Deployment
     The deployment from which to generate and download a report
@@ -16,11 +16,10 @@ function Export-CCMDeploymentDetail {
     The path to save the report too
     
     .EXAMPLE
-    Export-CCMDeploymentDetail -Deployment 'Complex' -Type PDF -OutputFolder C:\temp\
+    Export-CCMDeploymentReport -Deployment 'Complex' -Type PDF -OutputFolder C:\temp\
 
     .EXAMPLE
-    Export-CCMDeploymentDetail -Deployment 'Complex -Type Excel -OutputFolder C:\CCMReports
-    
+    Export-CCMDeploymentReport -Deployment 'Complex -Type Excel -OutputFolder C:\CCMReports
     #>
     [cmdletBinding()]
     param([ArgumentCompleter(

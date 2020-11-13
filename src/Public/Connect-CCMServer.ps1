@@ -1,25 +1,22 @@
 function Connect-CCMServer {
     <#
     .SYNOPSIS
-    Creates a session to a CCM instance
+    Creates a session to a central management instance
     
     .DESCRIPTION
-    Creates a web session cookie used for other cmdlets in the ChocoCCM module
+    Creates a web session cookie used for other functions in the ChocoCCM module
     
     .PARAMETER Hostname
     The hostname and port number of your Central Management installation
     
     .PARAMETER Credential
-    The credentials for your Central Management installation. YOu'll be prompted if left blank
+    The credentials for your Central Management installation. You'll be prompted if left blank
     
     .EXAMPLE
     Connect-CCMServer -Hostname localhost:8090
 
     .EXAMPLE
-    $cred = Get-Credential ; Connect-CCMServer -Hostname localhost:8090 -Credential $cred
-    
-    .NOTES
-    
+    $cred = Get-Credential ; Connect-CCMServer -Hostname localhost:8090 -Credential $cred    
     #>
     [cmdletBinding()]
     Param(

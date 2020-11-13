@@ -1,4 +1,20 @@
 function Remove-CCMGroupMember {
+    <#
+    .SYNOPSIS
+    Remove a member from a Central Management Group
+    
+    .DESCRIPTION
+    Remove a member from a Central Management Group
+    
+    .PARAMETER Group
+    The group you want to remove a member from
+    
+    .PARAMETER Member
+    The member you want to remove
+    
+    .EXAMPLE
+    Remove-CCMGroupMember -Group TestLab -Member TestPC1
+    #>
     [cmdletBinding(ConfirmImpact="High",SupportsShouldProcess)]
     param(
         [parameter(Mandatory)]
