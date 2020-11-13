@@ -18,7 +18,7 @@ function Connect-CCMServer {
     .EXAMPLE
     $cred = Get-Credential ; Connect-CCMServer -Hostname localhost:8090 -Credential $cred    
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/connect-ccmserver")]
     Param(
         [Parameter(Mandatory,Position=0)]
         [String]

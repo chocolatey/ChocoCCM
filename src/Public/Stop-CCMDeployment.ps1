@@ -13,7 +13,7 @@ function Stop-CCMDeployment {
     Stop-CCMDeployment -Deployment 'Upgrade VLC'
     
     #>
-    [cmdletBinding(ConfirmImpact = "high", SupportsShouldProcess)]
+    [cmdletBinding(ConfirmImpact = "high", SupportsShouldProcess,HelpUri="https://chocolatey.org/docs/stop-ccmdeployment")]
     param(
         [ArgumentCompleter(
             {

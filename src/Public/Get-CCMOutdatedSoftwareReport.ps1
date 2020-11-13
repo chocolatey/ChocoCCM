@@ -9,7 +9,7 @@ function Get-CCMOutdatedSoftwareReport {
     .EXAMPLE
     Get-CCMOutdatedSoftwareReport
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmoutdated-software-report")]
     param()
 
     begin {

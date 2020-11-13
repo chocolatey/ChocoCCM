@@ -54,7 +54,7 @@ function Set-CCMDeploymentStep {
 
     Set-CCMDeploymentStep @stepParams
     #>
-    [cmdletBinding(DefaultParameterSetName="Dumby")]
+    [cmdletBinding(DefaultParameterSetName="Dumby",HelpUri="https://chocolatey.org/docs/set-ccmdeployment-step")]
     param(
         [parameter(Mandatory)]
         [ArgumentCompleter(

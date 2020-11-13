@@ -13,7 +13,7 @@ function Get-CCMGroupMember {
     Get-CCMGroupMember -Group "WebServers"
     
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmgroup-member")]
     param(
         [parameter(Mandatory)]
         [ArgumentCompleter(

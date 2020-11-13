@@ -19,7 +19,7 @@ function Add-CCMGroupMember {
     Add-CCMGroupMember -Group 'Newly Imaged' -Computer Lab1,Lab2,Lab3
     
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/add-ccmgroup-member")]
     param(
         [parameter(Mandatory = $true)]
         [parameter(ParameterSetName = "Computer")]

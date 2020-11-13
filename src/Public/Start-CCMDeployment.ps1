@@ -16,7 +16,7 @@ function Start-CCMDeployment {
     Start-CCMDeployment -Deployment 'Complex Deployment'
     
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/start-ccmdeployment")]
     param(
         [parameter(Mandatory)]
         [ArgumentCompleter(

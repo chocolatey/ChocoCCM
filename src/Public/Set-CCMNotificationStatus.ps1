@@ -19,7 +19,7 @@ function Set-CCMNotificationStatus {
     Set-CCMNotificationStatus -Disable
 
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/set-ccmnotification-status")]
     param(
         [parameter(Mandatory,ParameterSetName="Enabled")]
         [switch]

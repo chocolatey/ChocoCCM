@@ -15,7 +15,7 @@ function Import-PDQDeployPackage {
     .NOTES
     General notes
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/import-pdqdeploy-package")]
     param(
         [parameter(Mandatory)]
         [ValidateScript( { Test-Path $_ })]

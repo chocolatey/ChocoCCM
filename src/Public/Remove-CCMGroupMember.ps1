@@ -15,7 +15,7 @@ function Remove-CCMGroupMember {
     .EXAMPLE
     Remove-CCMGroupMember -Group TestLab -Member TestPC1
     #>
-    [cmdletBinding(ConfirmImpact="High",SupportsShouldProcess)]
+    [cmdletBinding(ConfirmImpact="High",SupportsShouldProcess,HelpUri="https://chocolatey.org/docs/remove-ccmgroup-member")]
     param(
         [parameter(Mandatory)]
         [ArgumentCompleter(

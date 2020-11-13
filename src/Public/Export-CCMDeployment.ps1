@@ -25,7 +25,7 @@ function Export-CCMDeployment {
     Export-CCMDeployment -Deployment UpgradeChrome -OutFile C:\temp\upgradechrome_ccmdeployment.xml -AllowClobber
     
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/export-ccmdeployment")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

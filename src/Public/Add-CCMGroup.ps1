@@ -25,7 +25,7 @@ function Add-CCMGroup {
     .EXAMPLE
     Add-CCMGroup -Name PowerShell -Description "I created this via the ChocoCCM module" -Group Webservers
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/add-ccmgroup")]
     param(
         [parameter(mandatory = $true)]
         [string]
