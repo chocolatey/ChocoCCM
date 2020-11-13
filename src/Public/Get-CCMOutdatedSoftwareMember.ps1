@@ -1,4 +1,24 @@
-function Get-CCMOutdatedPackageMember {
+function Get-CCMOutdatedSoftwareMember {
+    <#
+    .SYNOPSIS
+    Returns computers with the requested outdated software. To see outdated software information use Get-CCMOutdatedSoftware
+    
+    .DESCRIPTION
+    Returns the computers with the requested outdated software. To see outdated software information use Get-CCMOutdatedSoftware
+    
+    .PARAMETER Software
+    The software to query. Software here refers to what would show up in Programs and Features on a machine.
+    Example: If you have VLC installed, this shows as 'VLC Media Player' in Programs and Features.
+    
+    .PARAMETER Package
+    This is the Chocolatey package name to search for.
+    
+    .EXAMPLE
+    Get-CCMOutdatedSoftwareMember -Software 'VLC Media Player'
+
+    .EXAMPLE
+    Get-CCMOutdatedSoftwareMember -Package vlc
+    #>
     [cmdletBinding()]
     param(
         [parameter()]

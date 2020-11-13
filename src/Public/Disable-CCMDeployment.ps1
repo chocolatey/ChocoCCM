@@ -1,16 +1,16 @@
-function Invoke-ArchiveCCMDeployment {
+function Disable-CCMDeployment {
     <#
     .SYNOPSIS
-    Archive a CCM Deployment
+    Archive a CCM Deployment. This will move a Deployment to the Archived Deployments section in the Central Management Web UI.
     
     .DESCRIPTION
-    Moves a deployment in Central Management to the archive
+    Moves a deployment in Central Management to the archive. This Deployment will no longer be available for use.
     
     .PARAMETER Deployment
     The deployment to archive
     
     .EXAMPLE
-    Invoke-ArchiveCCMDeployment -Deployment 'Upgrade VLC'
+    Disable-CCMDeployment -Deployment 'Upgrade VLC'
 
     .EXAMPLE
     Archive-CCMDeployment -Deployment 'Upgrade VLC'

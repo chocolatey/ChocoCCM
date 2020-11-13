@@ -1,7 +1,7 @@
 function Add-CCMGroupMember {
     <#
     .SYNOPSIS
-    Adds a member to an existing Group in CCM
+    Adds a member to an existing Group in Central Management
     
     .DESCRIPTION
     Add new computers and groups to existing Central Management Groups
@@ -16,10 +16,8 @@ function Add-CCMGroupMember {
     The group(s) to add
     
     .EXAMPLE
-    An example
+    Add-CCMGroupMember -Group 'Newly Imaged' -Computer Lab1,Lab2,Lab3
     
-    .NOTES
-    General notes
     #>
     [cmdletBinding()]
     param(

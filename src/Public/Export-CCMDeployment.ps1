@@ -1,7 +1,7 @@
 function Export-CCMDeployment {
     <#
     .SYNOPSIS
-    Exports a Deployment to CliXML
+    Exports a Deployment to a CliXML file
     
     .DESCRIPTION
     Adds ability to export a deployment as cli-xml. Useful for backup/source control of deployments

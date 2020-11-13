@@ -8,7 +8,6 @@ function Get-CCMOutdatedSoftwareReport {
     
     .EXAMPLE
     Get-CCMOutdatedSoftwareReport
-    
     #>
     [cmdletBinding()]
     param()

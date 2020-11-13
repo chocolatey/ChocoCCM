@@ -4,10 +4,11 @@ function Add-CCMGroup {
     Adds a group to Central Management
     
     .DESCRIPTION
-    Adds a group to Central Management via its REST Api
+    Deployments in Central Management revolve around Groups. Before you can execute a deployment you must define a target group of computers the Deployment will execute on.
+    Use this function to create new groups in your Central Management system
     
     .PARAMETER Name
-    The name of the group
+    The name you wish to give the group
     
     .PARAMETER Description
     A short description of the group
@@ -23,9 +24,6 @@ function Add-CCMGroup {
 
     .EXAMPLE
     Add-CCMGroup -Name PowerShell -Description "I created this via the ChocoCCM module" -Group Webservers
-    
-    .NOTES
-    
     #>
     [cmdletBinding()]
     param(
@@ -52,8 +50,8 @@ function Add-CCMGroup {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
         
-        $computers = Get-CCMComputer -All
-        $groups = Get-CCMGroup -All
+        $computers = Get-CCMComputer
+        $groups = Get-CCMGroup
 
         $ComputerCollection = [System.Collections.Generic.List[psobject]]::new()
         $GroupCollection = [System.Collections.Generic.List[psobject]]::new()
