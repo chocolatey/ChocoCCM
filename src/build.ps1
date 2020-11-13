@@ -42,6 +42,15 @@ process {
 
             Copy-Item "$root\ChocoCCM.psd1" "$root\Output\ChocoCCM"
 
+            $string = @'
+if(-not (Test-Path $env:ChocolateyInstall\license\chocolatey.license.xml)){
+    throw "A licensed version of Chocolatey For Business is required to import and use this module"
+}
+
+'@
+
+        $string | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
+
             Get-ChildItem -Path $root\Public\*.ps1 | Foreach-Object {
 
                 Get-Content $_.FullName | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
