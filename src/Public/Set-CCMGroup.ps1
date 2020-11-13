@@ -24,7 +24,7 @@ function Set-CCMGroup {
     .EXAMPLE
     Set-CCMGroup -Group Test -NewName NewMachineImaged -Description 'Group for freshly imaged machines needing a baseline package pushed to them'
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/set-ccmgroup")]
     param(
         [ArgumentCompleter(
             {

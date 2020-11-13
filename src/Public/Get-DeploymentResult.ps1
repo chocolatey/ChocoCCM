@@ -13,7 +13,7 @@ function Get-DeploymentResult {
     Get-CCMDeploymentResult -Name 'Google Chrome Upgrade'
     
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-deployment-result")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

@@ -15,7 +15,7 @@ function Get-CCMRole {
     .EXAMPLE
     Get-CCMRole -Name CCMAdmin
     #>
-    [cmdletBinding(DefaultParameterSetName="All")]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmrole")]
     param(
 
     [parameter(ParameterSetName="Name")]

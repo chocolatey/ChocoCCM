@@ -24,7 +24,7 @@ function Get-CCMDeployment {
     .EXAMPLE
     Get-CCMDeployment -Id 583
     #>
-    [cmdletBinding(DefaultParameterSetName="All")]
+    [cmdletBinding(DefaultParameterSetName="All",HelpUri="https://chocolatey.org/docs/get-ccmdeployment")]
     param(
         [parameter(ParameterSetName="All",Mandatory)]
         [switch]

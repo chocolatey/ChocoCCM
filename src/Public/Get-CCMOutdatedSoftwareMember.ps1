@@ -19,7 +19,7 @@ function Get-CCMOutdatedSoftwareMember {
     .EXAMPLE
     Get-CCMOutdatedSoftwareMember -Package vlc
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmoutdated-software-member")]
     param(
         [parameter()]
         [ArgumentCompleter(

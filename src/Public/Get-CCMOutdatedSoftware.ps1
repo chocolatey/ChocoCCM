@@ -9,7 +9,7 @@ Returns all outdated software reported in CCM
 .EXAMPLE
 Get-CCMOutdatedSoftware
 #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmoutdated-software")]
     param()
     
     process {

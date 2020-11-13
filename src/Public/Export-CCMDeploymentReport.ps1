@@ -21,7 +21,7 @@ function Export-CCMDeploymentReport {
     .EXAMPLE
     Export-CCMDeploymentReport -Deployment 'Complex -Type Excel -OutputFolder C:\CCMReports
     #>
-    [cmdletBinding()]
+    [cmdletBinding(HelpUri="https://chocolatey.org/docs/export-ccmdeployment-report")]
     param([ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
