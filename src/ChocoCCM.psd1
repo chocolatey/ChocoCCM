@@ -24,13 +24,13 @@ GUID = '7097e495-f5e0-4d7f-acba-8e2bbeb354af'
 Author = 'Stephen Valdinger'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'Chocolatey Software, Inc.'
 
 # Copyright statement for this module
 Copyright = 'Chocolatey Software, Inc.'
 
 # Description of the functionality provided by this module
-Description = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license.'
+Description = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license. See https://chocolatey.org/docs/central-management for more information.'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -125,10 +125,10 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+         Tags = @('chocolatey','central-management','automation')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+         LicenseUri = 'https://github.com/chocolatey/choco/blob/master/LICENSE'
 
         # A URL to the main website for this project.
         # ProjectUri = ''
@@ -144,7 +144,7 @@ PrivateData = @{
 } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
-# HelpInfoURI = ''
+ HelpInfoURI = 'https://chocolatey.org/docs/choco-ccmfunction-reference'
 
 # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
 # DefaultCommandPrefix = ''
