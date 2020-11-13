@@ -1,4 +1,29 @@
 function Set-CCMGroup {
+    <#
+    .SYNOPSIS
+    Change information about a group in Chocolatey Central Management
+    
+    .DESCRIPTION
+    Change the name or description of a Group in Chocolatey Central Management
+    
+    .PARAMETER Group
+    The Group to edit
+    
+    .PARAMETER NewName
+    The new name of the group
+    
+    .PARAMETER NewDescription
+    The new description of the group
+    
+    .EXAMPLE
+    Set-CCMGroup -Group Finance -Description 'Computers in the finance division'
+
+    .EXAMPLE
+    Set-CCMGroup -Group IT -NewName TheBestComputers
+
+    .EXAMPLE
+    Set-CCMGroup -Group Test -NewName NewMachineImaged -Description 'Group for freshly imaged machines needing a baseline package pushed to them'
+    #>
     [cmdletBinding()]
     param(
         [ArgumentCompleter(

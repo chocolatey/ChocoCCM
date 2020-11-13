@@ -28,7 +28,7 @@ Function Get-CCMComputer {
     Param(
 
         [Parameter(Mandatory, ParameterSetName = "Computer")]
-        [string]
+        [string[]]
         $Computer,
 
         [Parameter(Mandatory, ParameterSetName = "Id")]
@@ -56,14 +56,18 @@ Function Get-CCMComputer {
           
 
             "Computer" {
+                
+                Foreach ($c in $computer) {
 
-                $data.result.items | Where-Object { $_.name -match "$Computer" }
+                    [pscustomobject]$records.result | Where-Object { $_.name -match "$c" } 
+                
+                }
 
             }
 
             "Id" {
 
-                $records = Invoke-RestMethod-Uri "$($protocol)://$Hostname/api/services/app/Computers/GetComputerForEdit?Id=$Id" -WebSession $Session
+                $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/Computers/GetComputerForEdit?Id=$Id" -WebSession $Session
                 $records
 
             }

@@ -1,10 +1,10 @@
 function Export-CCMOutdatedSoftwareReport {
     <#
     .SYNOPSIS
-    Download an outdated Software report from Central Management
+    Download an outdated Software report from Central Management. This file will be saved to the OutputFolder specified
     
     .DESCRIPTION
-    Download either a PDF or Excel format report of outdated software from Central Management
+    Download either a PDF or Excel format report of outdated software from Central Management to the OutputFolder specified
     
     .PARAMETER Report
     The report to download

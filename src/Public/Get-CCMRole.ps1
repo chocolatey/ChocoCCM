@@ -1,11 +1,24 @@
 function Get-CCMRole {
+    <#
+    .SYNOPSIS
+    Get roles available in Chococlatey Central Management
+    
+    .DESCRIPTION
+    Return information about roles available in Chocolatey Central Management   
+    
+    .PARAMETER Name
+    The name of a role to query
+
+    .EXAMPLE
+    Get-CCMRole
+
+    .EXAMPLE
+    Get-CCMRole -Name CCMAdmin
+    #>
     [cmdletBinding(DefaultParameterSetName="All")]
     param(
-        [parameter(ParameterSetName="All")]
-        [switch]
-        $All,
 
-        [parameter(ParameterSetName="Name")]
+    [parameter(ParameterSetName="Name")]
         [string]
         $Name
 
@@ -32,13 +45,13 @@ function Get-CCMRole {
         }
 
         switch($PSCmdlet.ParameterSetName){
-            'All' {
-
-                $response.result.items
-            }
 
             'Name' {
                 $response.result.items | Where-Object { $_.name -eq $Name }
+            }
+
+            default {
+                $response.result.items
             }
         }
     }

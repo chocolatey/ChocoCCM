@@ -1,6 +1,21 @@
 function Get-DeploymentResult {
+    <#
+    .SYNOPSIS
+    Return the result of a Central Management Deployment
+    
+    .DESCRIPTION
+    Return the result of a Central Management Deployment
+    
+    .PARAMETER Deployment
+    The Deployment for which to return information
+    
+    .EXAMPLE
+    Get-CCMDeploymentResult -Name 'Google Chrome Upgrade'
+    
+    #>
     [cmdletBinding()]
     param(
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
