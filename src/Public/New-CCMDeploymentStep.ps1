@@ -63,7 +63,7 @@ function New-CCMDeploymentStep {
         [ArgumentCompleter(
             {
                 param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMDeployment -All).Name
+                $r = (Get-CCMDeployment).Name
                 
 
                 If($WordToComplete){
@@ -87,7 +87,7 @@ function New-CCMDeploymentStep {
         [ArgumentCompleter(
             {
                 param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMGroup -All).Name
+                $r = (Get-CCMGroup).Name
                 
 
                 If($WordToComplete){
@@ -152,18 +152,17 @@ function New-CCMDeploymentStep {
                 $Body = @{
                     Name = "$Name"
                     DeploymentPlanId = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
-                    DeploymentStepGroups = if($TargetGroup.Count -gt 0){
-                        @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
-                    } else {
-                        @()
-                    }
+                    DeploymentStepGroups = @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
                     ExecutionTimeoutInSeconds = "$ExecutionTimeoutSeconds"
                     RequireSuccessOnAllComputers = "$RequireSuccessOnAllComputers"
                     failOnError = "$FailOnError"
                     validExitCodes = "$($validExitCodes -join ',')"
-                    script = "$($ChocoCommand)|$($PackageName)"
+                    script = "$($ChocoCommand.ToLower())|$($PackageName)"
                     
-                } | ConvertTo-Json
+                } | ConvertTo-Json -Depth 3
+
+                $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
+
 
             }
 
@@ -177,13 +176,16 @@ function New-CCMDeploymentStep {
                     failOnError = "$FailOnError"
                     validExitCodes = "$($validExitCodes -join ',')"
                     script = "$($Script.ToString())"
-                } | ConvertTo-Json
+                } | ConvertTo-Json -Depth 3
+
+                $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEditPrivileged"
+
                 
             }
         }
 
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
+            Uri = "$($Uri)"
             Method = "POST"
             ContentType = "application/json"
             WebSession = $Session
@@ -191,8 +193,10 @@ function New-CCMDeploymentStep {
             
         }
 
+
+
         try{
-            $null = Invoke-RestMethod @irmParams -ErrorAction Stop
+            $null = Invoke-RestMethod @irmParams -ErrorAction Stop -Proxy 'http://127.0.0.1:8888'
         }
         catch{
             throw $_.Exception.Message
