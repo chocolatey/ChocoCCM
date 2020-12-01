@@ -1,4 +1,4 @@
-# Get-CCMOutdatedSoftwareReportDetail
+﻿# Get-CCMOutdatedSoftwareReportDetail
 
 <!-- This documentation is automatically generated from /Get-CCMOutdatedSoftwareReportDetail.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -38,17 +38,6 @@ None
 None
 
 ## Parameters
-
-###  -Report &lt;String&gt;
-The report to query
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

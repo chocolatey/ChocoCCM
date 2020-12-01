@@ -1,15 +1,10 @@
-# Get-CCMSoftware
+﻿# Get-CCMSoftware
 
 <!-- This documentation is automatically generated from /Get-CCMSoftware.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
 Returns information about software tracked inside of CCM
 
 ## Syntax
-
-~~~powershell
-Get-CCMSoftware [<CommonParameters>]
-~~~
-
 
 ~~~powershell
 Get-CCMSoftware `

@@ -1,4 +1,4 @@
-# Get-CCMDeployment
+﻿# Get-CCMDeployment
 
 <!-- This documentation is automatically generated from /Get-CCMDeployment.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -7,8 +7,7 @@ Return information about a CCM Deployment
 ## Syntax
 
 ~~~powershell
-Get-CCMDeployment `
-  -All [<CommonParameters>]
+Get-CCMDeployment [<CommonParameters>]
 ~~~
 
 
@@ -37,7 +36,7 @@ None
  **EXAMPLE 1**
 
 ~~~powershell
-Get-CCMDeployment -All
+Get-CCMDeployment
 
 ~~~
 
@@ -65,17 +64,6 @@ None
 
 ## Parameters
 
-###  -All
-Returns all Deployment Plans
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | named
-Default Value          | False
-Accept Pipeline Input? | false
- 
 ###  -Name &lt;String&gt;
 Returns the named Deployment Plan
 

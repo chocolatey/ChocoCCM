@@ -1,4 +1,4 @@
-# Get-DeploymentResult
+﻿# Get-DeploymentResult
 
 <!-- This documentation is automatically generated from /Get-DeploymentResult.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -38,17 +38,6 @@ None
 None
 
 ## Parameters
-
-###  -Deployment &lt;String&gt;
-The Deployment for which to return information
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

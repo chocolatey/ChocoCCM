@@ -1,4 +1,4 @@
-# Import-PDQDeployPackage
+﻿# Import-PDQDeployPackage
 
 <!-- This documentation is automatically generated from /Import-PDQDeployPackage.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -41,17 +41,6 @@ None
 None
 
 ## Parameters
-
-###  -PdqXml &lt;String&gt;
-The pdq xml file to import
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

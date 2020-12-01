@@ -1,4 +1,4 @@
-# New-CCMDeploymentStep
+﻿# New-CCMDeploymentStep
 
 <!-- This documentation is automatically generated from /New-CCMDeploymentStep.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -77,7 +77,6 @@ New-CCMDeploymentStep -Deployment PowerShell -Name 'From ChocoCCM' -TargetGroup 
 >> Write-Host "end"
 >> 
 >> }
-
 ~~~
 
 **EXAMPLE 3**

@@ -1,4 +1,4 @@
-# Move-CCMDeploymentToReady
+﻿# Move-CCMDeploymentToReady
 
 <!-- This documentation is automatically generated from /Move-CCMDeploymentToReady.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -45,17 +45,6 @@ None
 None
 
 ## Parameters
-
-###  -Deployment &lt;String&gt;
-The deployment  to  move
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

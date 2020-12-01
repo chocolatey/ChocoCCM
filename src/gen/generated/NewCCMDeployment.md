@@ -1,4 +1,4 @@
-# New-CCMDeployment
+﻿# New-CCMDeployment
 
 <!-- This documentation is automatically generated from /New-CCMDeployment.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -38,17 +38,6 @@ None
 None
 
 ## Parameters
-
-###  -Name &lt;String&gt;
-The name for the deployment
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

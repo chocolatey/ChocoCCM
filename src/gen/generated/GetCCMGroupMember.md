@@ -1,4 +1,4 @@
-# Get-CCMGroupMember
+﻿# Get-CCMGroupMember
 
 <!-- This documentation is automatically generated from /Get-CCMGroupMember.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -38,17 +38,6 @@ None
 None
 
 ## Parameters
-
-###  -Group &lt;String&gt;
-The Group to query
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | true
-Position?              | 1
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

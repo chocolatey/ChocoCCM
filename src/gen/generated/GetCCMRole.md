@@ -1,15 +1,10 @@
-# Get-CCMRole
+﻿# Get-CCMRole
 
 <!-- This documentation is automatically generated from /Get-CCMRole.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
 Get roles available in Chococlatey Central Management
 
 ## Syntax
-
-~~~powershell
-Get-CCMRole [<CommonParameters>]
-~~~
-
 
 ~~~powershell
 Get-CCMRole `
@@ -50,17 +45,6 @@ None
 None
 
 ## Parameters
-
-###  -Name [&lt;String&gt;]
-The name of a role to query
-
-Property               | Value
----------------------- | -----
-Aliases                | 
-Required?              | false
-Position?              | named
-Default Value          | 
-Accept Pipeline Input? | false
  
 ### &lt;CommonParameters&gt;
 

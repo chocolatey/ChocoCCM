@@ -1,4 +1,4 @@
-# Set-CCMDeploymentStep
+﻿# Set-CCMDeploymentStep
 
 <!-- This documentation is automatically generated from /Set-CCMDeploymentStep.ps1 using GenerateDocs.ps1. Contributions are welcome at the original location(s). -->
 
@@ -66,7 +66,7 @@ Set-CCMDeploymentStep -Deployment 'Google Chrome Upgrade' -Step 'Upgrade' -Targe
 
 ~~~powershell
 $stepParams = @{
-    Deployment = 'OS Version'
+Deployment = 'OS Version'
     Step = 'Gather Info'
     TargetGroup = 'US-East servers'
     Script = { $data = Get-WMIObject win32_OperatingSystem
@@ -76,6 +76,7 @@ $stepParams = @{
                 }
     }
 }
+
 Set-CCMDeploymentStep @stepParams
 ~~~ 
 
