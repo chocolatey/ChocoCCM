@@ -6,9 +6,6 @@ function Get-CCMDeployment {
     .DESCRIPTION
     Returns detailed information about Central Management Deployment Plans
     
-    .PARAMETER All
-    Returns all Deployment Plans
-    
     .PARAMETER Name
     Returns the named Deployment Plan
     
@@ -16,7 +13,7 @@ function Get-CCMDeployment {
     Returns the Deployment Plan with the give Id
     
     .EXAMPLE
-    Get-CCMDeployment -All
+    Get-CCMDeployment
     
     .EXAMPLE
     Get-CCMDeployment -Name Bob
@@ -24,12 +21,9 @@ function Get-CCMDeployment {
     .EXAMPLE
     Get-CCMDeployment -Id 583
     #>
-    [cmdletBinding(DefaultParameterSetName="All",HelpUri="https://chocolatey.org/docs/get-ccmdeployment")]
+    [cmdletBinding(DefaultParameterSetname="default",HelpUri="https://chocolatey.org/docs/get-ccmdeployment")]
     param(
-        [parameter(ParameterSetName="All",Mandatory)]
-        [switch]
-        $All,
-
+        
         [parameter(ParameterSetName="Name",Mandatory)]
         [string]
         $Name,
@@ -52,9 +46,6 @@ function Get-CCMDeployment {
         } 
 
         switch($PSCmdlet.ParameterSetName){
-            'All' {
-                $records.result
-            }
 
             'Name' {
                 
@@ -68,6 +59,11 @@ function Get-CCMDeployment {
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForView?Id=$id" -WebSession $Session
                 $records.result.deploymentPlan
             }
+
+            default {
+                $records.result
+            }
+            
         }
     }
 }

@@ -27,7 +27,7 @@ function Add-CCMGroupMember {
         [ArgumentCompleter(
             {
                 param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMGroup -All).Name
+                $r = (Get-CCMGroup).Name
                 
 
                 If($WordToComplete){
@@ -58,8 +58,8 @@ function Add-CCMGroupMember {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
         
-        $computers = Get-CCMComputer -All
-        $groups = Get-CCMGroup -All
+        $computers = Get-CCMComputer
+        $groups = Get-CCMGroup
     
         $ComputerCollection = [System.Collections.Generic.List[psobject]]::new()
         $GroupCollection = [System.Collections.Generic.List[psobject]]::new()
