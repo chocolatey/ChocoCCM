@@ -152,18 +152,17 @@ function New-CCMDeploymentStep {
                 $Body = @{
                     Name = "$Name"
                     DeploymentPlanId = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
-                    DeploymentStepGroups = if($TargetGroup.Count -gt 0){
-                        @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
-                    } else {
-                        @()
-                    }
+                    DeploymentStepGroups = @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
                     ExecutionTimeoutInSeconds = "$ExecutionTimeoutSeconds"
                     RequireSuccessOnAllComputers = "$RequireSuccessOnAllComputers"
                     failOnError = "$FailOnError"
                     validExitCodes = "$($validExitCodes -join ',')"
-                    script = "$($ChocoCommand)|$($PackageName)"
+                    script = "$($ChocoCommand.ToLower())|$($PackageName)"
                     
-                } | ConvertTo-Json
+                } | ConvertTo-Json -Depth 3
+
+                $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
+
 
             }
 
@@ -177,13 +176,16 @@ function New-CCMDeploymentStep {
                     failOnError = "$FailOnError"
                     validExitCodes = "$($validExitCodes -join ',')"
                     script = "$($Script.ToString())"
-                } | ConvertTo-Json
+                } | ConvertTo-Json -Depth 3
+
+                $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEditPrivileged"
+
                 
             }
         }
 
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
+            Uri = "$($Uri)"
             Method = "POST"
             ContentType = "application/json"
             WebSession = $Session
