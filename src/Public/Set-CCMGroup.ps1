@@ -29,7 +29,7 @@ function Set-CCMGroup {
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
-                $r = (Get-CCMGroup -All).Name
+                $r = (Get-CCMGroup).Name
                 
 
                 If ($WordToComplete) {
