@@ -1,3 +1,4 @@
 .vscode/*
 .vscode
 src/gen/generated
+.DS_Store
