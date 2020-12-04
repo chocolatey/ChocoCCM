@@ -22,7 +22,7 @@ function Disable-CCMDeployment {
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
-                $r = (Get-CCMDeployment -All).Name
+                $r = (Get-CCMDeployment).Name
                 
 
                 If ($WordToComplete) {

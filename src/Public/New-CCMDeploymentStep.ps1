@@ -63,7 +63,7 @@ function New-CCMDeploymentStep {
         [ArgumentCompleter(
             {
                 param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMDeployment -All).Name
+                $r = (Get-CCMDeployment).Name
                 
 
                 If($WordToComplete){
@@ -87,7 +87,7 @@ function New-CCMDeploymentStep {
         [ArgumentCompleter(
             {
                 param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
-                $r = (Get-CCMGroup -All).Name
+                $r = (Get-CCMGroup).Name
                 
 
                 If($WordToComplete){
