@@ -25,7 +25,7 @@ function Remove-CCMDeploymentStep {
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
-                $r = (Get-CCMDeployment -All)
+                $r = (Get-CCMDeployment)
                 
 
                 If ($WordToComplete) {
