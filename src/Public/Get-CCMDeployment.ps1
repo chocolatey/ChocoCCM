@@ -50,15 +50,12 @@ function Get-CCMDeployment {
             'Name' {
                 
                 $queryId = $records.result | Where-Object { $_.Name -eq "$Name"} | Select-Object -ExpandProperty Id
-                $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForView?Id=$queryId" -WebSession $Session
-                $records.result.deploymentPlan
+                $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$queryId" -WebSession $Session
 
             }
 
             'Id' {
-                $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForView?Id=$id" -WebSession $Session
-                $records.result.deploymentPlan
-            }
+                $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$id" -WebSession $Session
 
             default {
                 $records.result
