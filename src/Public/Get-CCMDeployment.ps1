@@ -12,6 +12,9 @@ function Get-CCMDeployment {
     .PARAMETER Id
     Returns the Deployment Plan with the given Id.
 
+    .PARAMETER IncludeStepResults
+    If set, additionally retrieves the results for each step of the deployment.
+
     .EXAMPLE
     Get-CCMDeployment
 
@@ -19,7 +22,7 @@ function Get-CCMDeployment {
     Get-CCMDeployment -Name Bob
 
     .EXAMPLE
-    Get-CCMDeployment -Id 583
+    Get-CCMDeployment -Id 583 -IncludeStepResults
     #>
     [CmdletBinding(DefaultParameterSetname = "default", HelpUri="https://chocolatey.org/docs/get-ccmdeployment")]
     param(
@@ -30,7 +33,12 @@ function Get-CCMDeployment {
 
         [Parameter(ParameterSetName = "Id", Mandatory)]
         [string]
-        $Id
+        $Id,
+
+        [Parameter(ParameterSetName = "Name")]
+        [Parameter(ParameterSetName = "Id")]
+        [switch]
+        $IncludeStepResults
     )
 
     begin {
@@ -52,10 +60,31 @@ function Get-CCMDeployment {
                 $queryId = $records.result | Where-Object { $_.Name -eq "$Name"} | Select-Object -ExpandProperty Id
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$queryId" -WebSession $Session
 
+                if ($IncludeStepResults) {
+                    $result = $records.result.deploymentPlan
+                    $result.deploymentSteps = $result.deploymentSteps | Get-CCMDeploymentStep -IncludeResults
+
+                    $result
+                }
+                else {
+                    $records.result.deploymentPlan
+                }
+
             }
 
             'Id' {
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$id" -WebSession $Session
+
+                if ($IncludeStepResults) {
+                    $result = $records.result.deploymentPlan
+                    $result.deploymentSteps = $result.deploymentSteps | Get-CCMDeploymentStep -IncludeResults
+
+                    $result
+                }
+                else {
+                    $records.result.deploymentPlan
+                }
+            }
 
             default {
                 $records.result
