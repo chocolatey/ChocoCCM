@@ -9,23 +9,29 @@ function Remove-CCMGroupMember {
     .PARAMETER Group
     The group you want to remove a member from
     
-    .PARAMETER Member
-    The member you want to remove
+    .PARAMETER GroupMember
+    The group(s) to remove from the group
+
+    .PARAMETER ComputerMember
+    The computer(s) to remove from the group
     
     .EXAMPLE
-    Remove-CCMGroupMember -Group TestLab -Member TestPC1
+    Remove-CCMGroupMember -Group TestLab -ComputerMember TestPC1
+
+    .EXAMPLE
+    Remove-CCMGroupMember -Group TestLab -ComputerMember Test1,Test2 -GroupMember SecondLab
     #>
-    [cmdletBinding(ConfirmImpact="High",SupportsShouldProcess,HelpUri="https://chocolatey.org/docs/remove-ccmgroup-member")]
+    [cmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmgroup-member")]
     param(
         [parameter(Mandatory)]
         [ArgumentCompleter(
             {
-                param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
+                param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMGroup -All).Name
                 
 
-                If($WordToComplete){
-                    $r.Where{$_ -match "^$WordToComplete"}
+                If ($WordToComplete) {
+                    $r.Where{ $_ -match "^$WordToComplete" }
                 }
 
                 Else {
@@ -37,31 +43,67 @@ function Remove-CCMGroupMember {
         [string]
         $Group,
 
-        [parameter(Mandatory)]
-        [string]
-        $Member
+        [parameter()]
+        [string[]]
+        $GroupMember,
+
+        [parameter()]
+        [string[]]
+        $ComputerMember
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
+
     process {
 
-        $id = (Get-CCMGroup -Group $Group).id
+        $currentMembers = Get-CCMGroupMember -Group $Group
+        $G = Get-CCMGroup -Group $Group
+        $currentMembers | Add-Member -MemberType NoteProperty -Name Id -Value $G.Id
 
-        $irmParams  = @{
-            Uri = ""
-            Method = "DELETE"
+        foreach ($c in $ComputerMember) {
+            $currentMembers.Computers = @($($currentMembers.Computers | Where-Object { $_.ComputerName -ne $c }))
+        }
+
+        foreach ($g in $GroupMember) {
+            $currentMembers.Groups = @($($currentMembers.Groups | Where-Object { $_.subGroupName -ne $g }))
+        }
+
+        if (-not $currentMembers.Groups) {
+            $currentMembers.Groups = @()
+        }
+
+        if (-not $currentMembers.Computers) {
+            $currentMembers.Computers = @()
+        }
+
+        $body = $currentMembers | ConvertTo-Json -Depth 3
+
+        $irmParams = @{
+            Uri         = "$($protocol)://$hostname/api/services/app/Groups/CreateOrEdit"
+            Method      = "POST"
             ContentType = "application/json"
+            Body        = $body
             WebSession  = $Session
         }
-
+                
+        Write-Verbose $body
         try {
-            Invoke-RestMethod @irmParams -ErrorAction Stop
-        } catch {
+            $result = Invoke-RestMethod @irmParams -ErrorAction Stop
+            [pscustomobject]@{
+                Status            = $result.success
+                Group             = $Group
+                AffectedComputers = $ComputerMember
+                AffectedGroups    = $GroupMember
+            }
+        }
+        catch {
             throw $_.Exception.Message
         }
+        
     }
+
 }
