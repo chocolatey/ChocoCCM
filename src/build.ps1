@@ -1,28 +1,9 @@
 [cmdletBinding()]
 Param(
-    [Parameter()]
-    [Switch]
-    $Test,
-
-    [Parameter()]
-    [Switch]
-    $Build,
-
-    [Parameter()]
-    [Switch]
-    $Deploy,
-
-    [Parameter()]
-    [Switch]
-    $TestDeploy,
-
-    [Parameter()]
-    [Switch]
-    $BuildLocal,
-
-    [Parameter()]
-    [Switch]
-    $GitVersion
+    [Parameter(Mandatory)]
+    [ValidateSet('Test','Build','Deploy','TestDeploy','BuildLocal','GitVersion')]
+    [String]
+    $Step
 )
 
 
@@ -30,9 +11,9 @@ Param(
 process {
     $root = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
-    Switch ($true) {
+    Switch ($Step) {
         
-        $GitVersion {
+        'GitVersion' {
             
             Write-Host "Download GitVersion to build directory"
             Get-ChildItem . -Recurse
@@ -44,13 +25,13 @@ process {
             Write-Output "##teamcity[setParameter name='env.GitVersionTool' value='$GitVersionTool']"
         }
 
-        $Test {
+        'Test' {
             Install-Module Pester -MaximumVersion 4.99 -SkipPublisherCheck -Force
             Import-Module Pester
             Invoke-Pester (Resolve-Path "$root\Tests") -OutputFile "$($env:Build_ArtifactStagingDirectory)\test.results.xml" -OutputFormat NUnitXml
         }
 
-        $Build {
+        'Build' {
 
             If (Test-Path $root\Output) {
                 
@@ -81,7 +62,7 @@ if(-not (Test-Path $env:ChocolateyInstall\license\chocolatey.license.xml)){
 
         }
 
-        $BuildLocal {
+        'BuildLocal' {
             If (Test-Path $root\Output) {
                 
                 Remove-Item $root\Output -Recurse -Force
@@ -110,7 +91,7 @@ if(-not $IsMacOS){
             }
         }
 
-        $TestDeploy {
+        'TestDeploy' {
 
             if (Test-Path $root\Artifact) {
                 Remove-Item $root\Artifact -Recurse -Force
@@ -141,7 +122,7 @@ if(-not $IsMacOS){
 
         }
 
-        $Deploy {
+        'Deploy' {
 
             $psdFile = Resolve-Path "$root\Output\ChocoCCM"
             
