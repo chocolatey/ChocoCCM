@@ -35,10 +35,11 @@ process {
         $GitVersion {
             
             Write-Host "Download GitVersion to build directory"
-            $dotnetArgs =  @('tool', 'install', 'gitversion.tool', "--version 5.6.6", "--tool-path $PSScriptRoot")
+            Get-ChildItem . -Recurse
+            $dotnetArgs =  @('tool', 'install', 'gitversion.tool', "--version 5.6.6", "--tool-path $root")
             & dotnet @dotnetArgs
 
-            $GitVersionTool = (Get-ChildItem $PSScriptRoot -Recurse -Filter "dotnet-gitversion*").FullName
+            $GitVersionTool = (Get-ChildItem $root -Recurse -Filter "dotnet-gitversion*").FullName
             Write-Host $GitVersionTool
             Write-Output "##teamcity[setParameter name='env.GitVersionTool' value='$GitVersionTool']"
         }
