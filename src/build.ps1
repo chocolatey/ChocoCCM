@@ -1,7 +1,7 @@
 [cmdletBinding()]
 Param(
     [Parameter(Mandatory)]
-    [ValidateSet('Test','Build','Deploy','TestDeploy','BuildLocal','GitVersion')]
+    [ValidateSet('Test', 'Build', 'Deploy', 'TestDeploy', 'BuildLocal', 'GitVersion')]
     [String]
     $Step
 )
@@ -14,10 +14,54 @@ process {
     Switch ($Step) {
         
         'GitVersion' {
+
+            $DotNetChannel = "Current";
+            $DotNetVersion = "2.2.401";
+            $DotNetInstallerUri = "https://dot.net/v1/dotnet-install.ps1";
+
+            ###########################################################################
+            # INSTALL .NET CORE CLI
+            ###########################################################################
+
+            Function Remove-PathVariable([string]$VariableToRemove) {
+                $path = [Environment]::GetEnvironmentVariable("PATH", "User")
+                if ($path -ne $null) {
+                    $newItems = $path.Split(';', [StringSplitOptions]::RemoveEmptyEntries) | Where-Object { "$($_)" -inotlike $VariableToRemove }
+                    [Environment]::SetEnvironmentVariable("PATH", [System.String]::Join(';', $newItems), "User")
+                }
+
+                $path = [Environment]::GetEnvironmentVariable("PATH", "Process")
+                if ($path -ne $null) {
+                    $newItems = $path.Split(';', [StringSplitOptions]::RemoveEmptyEntries) | Where-Object { "$($_)" -inotlike $VariableToRemove }
+                    [Environment]::SetEnvironmentVariable("PATH", [System.String]::Join(';', $newItems), "Process")
+                }
+            }
+
+            # Get .NET Core CLI path if installed.
+            $FoundDotNetCliVersion = $null;
+            if (Get-Command dotnet -ErrorAction SilentlyContinue) {
+                $FoundDotNetCliVersion = dotnet --version;
+            }
+
+            if ($FoundDotNetCliVersion -ne $DotNetVersion) {
+                $InstallPath = Join-Path $PSScriptRoot ".dotnet"
+                if (!(Test-Path $InstallPath)) {
+                    mkdir -Force $InstallPath | Out-Null;
+                }
+                (New-Object System.Net.WebClient).DownloadFile($DotNetInstallerUri, "$InstallPath\dotnet-install.ps1");
+                & $InstallPath\dotnet-install.ps1 -Channel $DotNetChannel -Version $DotNetVersion -InstallDir $InstallPath;
+
+                Remove-PathVariable "$InstallPath"
+                $env:PATH = "$InstallPath;$env:PATH"
+            }
+
+            $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
+            $env:DOTNET_CLI_TELEMETRY_OPTOUT = 1
+
             
             Write-Host "Download GitVersion to build directory"
             Get-ChildItem . -Recurse
-            $dotnetArgs =  @('tool', 'install', 'gitversion.tool', "--version 5.6.6", "--tool-path $root")
+            $dotnetArgs = @('tool', 'install', 'gitversion.tool', "--version 5.6.6", "--tool-path $root")
             & dotnet @dotnetArgs
 
             $GitVersionTool = (Get-ChildItem $root -Recurse -Filter "dotnet-gitversion*").FullName
@@ -50,7 +94,7 @@ if(-not (Test-Path $env:ChocolateyInstall\license\chocolatey.license.xml)){
 
 '@
 
-        $string | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
+            $string | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
 
             Get-ChildItem -Path $root\Public\*.ps1 | Foreach-Object {
 
@@ -82,7 +126,7 @@ if(-not $IsMacOS){
 
 '@
 
-        $string | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
+            $string | Add-Content "$root\Output\ChocoCCM\ChocoCCM.psm1"
 
             Get-ChildItem -Path $root\Public\*.ps1 | Foreach-Object {
 
