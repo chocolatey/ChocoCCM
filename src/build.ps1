@@ -1,12 +1,4 @@
-[cmdletBinding()]
-Param(
-    [Parameter(Mandatory)]
-    [ValidateSet('Test', 'Build', 'Deploy', 'TestDeploy', 'BuildLocal', 'GitVersion')]
-    [String]
-    $Step
-)
-
-
+Param($Step)
 
 process {
     $root = Split-Path -Parent $MyInvocation.MyCommand.Definition
