@@ -57,7 +57,7 @@ Switch ($Step) {
 
             
         Write-Host "Download GitVersion to build directory"
-        $dotnetArgs = @('tool', 'install', 'gitversion.tool','--local', '--version', '5.6.6', '--tool-path', "$root")
+        $dotnetArgs = @('tool', 'install', 'gitversion.tool','--local', '--version', '5.6.6')
         & dotnet @dotnetArgs
 
         $GitVersionTool = (Get-ChildItem $root -Recurse -Filter "dotnet-gitversion*").FullName
