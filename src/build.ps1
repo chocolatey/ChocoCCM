@@ -1,3 +1,5 @@
+Write-Output bob
+<#
 [cmdletBinding()]
 Param(
     [Parameter(Mandatory)]
@@ -180,3 +182,4 @@ if(-not $IsMacOS){
 
     }
 }
+#>
