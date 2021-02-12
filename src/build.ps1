@@ -1,7 +1,6 @@
 [CmdletBinding()]
 Param(
     [Parameter()]
-    [ValidateScript('GitVersion', 'Build', 'Test', 'Deploy')]
     [String]
     $Step
 )
