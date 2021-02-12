@@ -13,7 +13,7 @@ Switch ($Step) {
     'GitVersion' {
 
         $DotNetChannel = "Current";
-        $DotNetVersion = "2.2.401";
+        $DotNetVersion = "latest";
         $DotNetInstallerUri = "https://dot.net/v1/dotnet-install.ps1";
 
         ###########################################################################
