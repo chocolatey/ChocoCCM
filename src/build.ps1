@@ -1,6 +1,6 @@
 Param($Step)
 
-process {
+
     $root = Split-Path -Parent $MyInvocation.MyCommand.Definition
 
     Switch ($Step) {
@@ -175,4 +175,4 @@ if(-not $IsMacOS){
         }
 
     }
-}
+
