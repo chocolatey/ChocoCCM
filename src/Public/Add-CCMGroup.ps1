@@ -57,32 +57,48 @@ function Add-CCMGroup {
         $GroupCollection = [System.Collections.Generic.List[psobject]]::new()
 
         foreach ($c in $Computer) {
-            $Cresult = $computers | Where-Object { $_.Name -eq "$c" } | Select-Object Name,Id
-            $ComputerCollection.Add($Cresult)
+            if($c -in $current.computers.computerName){
+                Write-Warning "Skipping $c, already exists"
+            }
+            else {
+                $Cresult = $computers | Where-Object { $_.Name -eq "$c" } | Select-Object  Id
+                $ComputerCollection.Add([pscustomobject]@{computerId = "$($Cresult.Id)" })
+            }
         }
 
+        $processedComputers = $ComputerCollection
+
         foreach ($g in $Group) {
-            $Gresult = $groups | Where-Object { $_.Name -eq "$g" } | Select-Object Name,Id
-            $GroupCollection.Add($Gresult)
+            if($g -in $current.groups.subGroupName){
+                Write-Warning "Skipping $g, already exists"
+            }
+            else {
+            $Gresult = $groups | Where-Object { $_.Name -eq "$g" } | Select-Object Id
+            $GroupCollection.Add([pscustomobject]@{subGroupId = "$($Gresult.Id)"})
         }
+        }
+        $processedGroups = $GroupCollection
 
     }
 
     process {
+        $body = @{
+            Name        = $Name
+            Description = $Description
+            Groups      = if (-not $processedGroups) { @() } else { @(,$processedGroups) }
+            Computers   = if (-not $processedComputers) { @() } else { @(,$processedComputers) }
+            } | ConvertTo-Json
 
         $irmParams = @{
             Uri         = "$($protocol)://$hostname/api/services/app/Groups/CreateOrEdit"
             Method      = "post"
             ContentType = "application/json"
-            Body        = @{
-                Name        = $Name
-                Description = $Description
-                Groups      = @($GroupCollection | ForEach-Object { [pscustomobject]@{ computerId ="$($_.id)" }})
-                Computers   = @($ComputerCollection | ForEach-Object { [pscustomobject]@{ computerId = "$($_.id)"}})
-            } | ConvertTo-Json
+            Body        = $body
             WebSession  = $Session
         }
-    
+        
+        Write-Verbose $body
+
         try {
             $response = Invoke-RestMethod @irmParams -ErrorAction Stop
         }
@@ -94,8 +110,8 @@ function Add-CCMGroup {
         [pscustomobject]@{
             name = $Name
             description = $Description
-            groups = $GroupCollection
-            computers = $ComputerCollection
+            groups = $Group
+            computers = $Computer
         }
     }
 
