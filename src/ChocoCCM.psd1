@@ -12,7 +12,7 @@
 RootModule = 'ChocoCCM.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.1'
+ModuleVersion = '0.1.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -80,6 +80,7 @@ FunctionsToExport = @('Connect-CCMServer',
 'Get-CCMGroupMember',
 'Remove-CCMGroupMember',
 'Get-CCMDeployment',
+'Get-CCMDeploymentStepResult',
 'New-CCMDeployment',
 'New-CCMDeploymentStep',
 'Set-CCMDeploymentStep',
@@ -89,10 +90,10 @@ FunctionsToExport = @('Connect-CCMServer',
 'Start-CCMDeployment',
 'Stop-CCMDeployment',
 'Export-CCMDeployment',
+'Export-CCMDeploymentReport',
 'Move-CCMDeploymentToReady',
 'Disable-CCMDeployment',
 'Get-DeploymentResult',
-'Export-CCMDeploymentDetail',
 'Get-CCMOutdatedSoftwareMember',
 'Get-CCMOutdatedSoftware',
 'New-CCMOutdatedSoftwareReport',
@@ -151,4 +152,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
