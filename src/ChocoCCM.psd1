@@ -80,6 +80,7 @@ FunctionsToExport = @('Connect-CCMServer',
 'Get-CCMGroupMember',
 'Remove-CCMGroupMember',
 'Get-CCMDeployment',
+'Get-CCMDeploymentStepResult',
 'New-CCMDeployment',
 'New-CCMDeploymentStep',
 'Set-CCMDeploymentStep',
@@ -151,4 +152,3 @@ PrivateData = @{
 # DefaultCommandPrefix = ''
 
 }
-
