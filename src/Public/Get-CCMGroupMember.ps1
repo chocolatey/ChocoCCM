@@ -44,7 +44,7 @@ function Get-CCMGroupMember {
     process {
         $Id = (Get-CCMGroup -Group $Group).Id
         $irmParams = @{
-            Uri         = "$($protocol)://localhost:8090/api/services/app/Groups/GetGroupForEdit?id=$Id"
+            Uri         = "$($protocol)://$hostname/api/services/app/Groups/GetGroupForEdit?id=$Id"
             Method      = "GET"
             ContentType = "application/json"
             WebSession  = $Session
