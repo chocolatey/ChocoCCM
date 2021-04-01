@@ -29,7 +29,7 @@ Function Get-CCMSoftware {
     
     .NOTES
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmsoftware")]
+    [cmdletBinding(DefaultParameterSetname = "All", HelpUri = "https://chocolatey.org/docs/get-ccmsoftware")]
     Param(
             
         [Parameter(Mandatory, ParameterSetName = "Software")]
@@ -62,14 +62,15 @@ Function Get-CCMSoftware {
 
             "Software" {
                 $softwareId = $records.result.items | Where-Object { $_.name -eq "$Software" } | Select-Object -ExpandProperty Id
-
-                $irmParams = @{
-                    WebSession = $Session
-                    Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$softwareID&skipCount=0&maxResultCount=500"
-                }
+                $softwareId | ForEach-Object {
+                    $irmParams = @{
+                        WebSession = $Session
+                        Uri        = "$($protocol)://$Hostname/api/services/app/ComputerSoftware/GetAllPagedBySoftwareId?filter=&softwareId=$($_)&skipCount=0&maxResultCount=500"
+                    }
                 
-                $records = Invoke-RestMethod @irmParams
-                $records.result.items
+                    $records = Invoke-RestMethod @irmParams
+                    $records.result
+                }
 
             }
 
@@ -83,7 +84,7 @@ Function Get-CCMSoftware {
                     }
                 
                     $records = Invoke-RestMethod @irmParams
-                    $records.result.items
+                    $records.result
                 }
             }
 
