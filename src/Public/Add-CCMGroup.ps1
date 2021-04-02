@@ -53,30 +53,31 @@ function Add-CCMGroup {
         $computers = Get-CCMComputer
         $groups = Get-CCMGroup
 
-        $ComputerCollection = [System.Collections.Generic.List[psobject]]::new()
-        $GroupCollection = [System.Collections.Generic.List[psobject]]::new()
-
-        foreach ($c in $Computer) {
-            if($c -in $current.computers.computerName){
-                Write-Warning "Skipping $c, already exists"
+        $ComputerCollection = foreach ($item in $Computer) {
+            if ($item -in $current.computers.computerName){
+                Write-Warning "Skipping $item, already exists"
             }
             else {
-                $Cresult = $computers | Where-Object { $_.Name -eq "$c" } | Select-Object  Id
-                $ComputerCollection.Add([pscustomobject]@{computerId = "$($Cresult.Id)" })
+                $Cresult = $computers | Where-Object Name -eq $item | Select-Object -ExpandProperty Id
+                # Drop object into $computerCollection
+                [pscustomobject]@{computerId = $Cresult }
+            }
+        }
+		
+		
+		
+        $GroupCollection = foreach ($item in $Group) {
+            if ($item -in $current.groups.subGroupName){
+                Write-Warning "Skipping $item, already exists"
+            }
+            else {
+                $Gresult = $groups | Where-Object Name -eq $item | Select-Object -ExpandProperty Id
+                # Drop object into $computerCollection
+                [pscustomobject]@{subGroupId = $Gresult }
             }
         }
 
         $processedComputers = $ComputerCollection
-
-        foreach ($g in $Group) {
-            if($g -in $current.groups.subGroupName){
-                Write-Warning "Skipping $g, already exists"
-            }
-            else {
-            $Gresult = $groups | Where-Object { $_.Name -eq "$g" } | Select-Object Id
-            $GroupCollection.Add([pscustomobject]@{subGroupId = "$($Gresult.Id)"})
-        }
-        }
         $processedGroups = $GroupCollection
 
     }
@@ -85,8 +86,8 @@ function Add-CCMGroup {
         $body = @{
             Name        = $Name
             Description = $Description
-            Groups      = if (-not $processedGroups) { @() } else { @(,$processedGroups) }
-            Computers   = if (-not $processedComputers) { @() } else { @(,$processedComputers) }
+            Groups      = if (-not $processedGroups) { $null } else { @(,$processedGroups) }
+            Computers   = if (-not $processedComputers) { $null } else { @(,$processedComputers) }
             } | ConvertTo-Json
 
         $irmParams = @{
