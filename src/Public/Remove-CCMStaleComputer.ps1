@@ -23,6 +23,7 @@ function Remove-CCMStaleComputer {
     #>
     [cmdletBinding(SupportsShouldProcess)]
     Param(
+        [Alias('Id')]
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [String[]]
         $ComputerId,
