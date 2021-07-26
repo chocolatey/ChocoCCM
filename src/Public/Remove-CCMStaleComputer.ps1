@@ -21,7 +21,7 @@ function Remove-CCMStaleComputer {
     .NOTES
     
     #>
-    [cmdletBinding(SupportsShouldProcess)]
+    [cmdletBinding(SupportsShouldProcess, ConfirmImpact = 'High')]
     Param(
         [Alias('Id')]
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
@@ -46,7 +46,9 @@ function Remove-CCMStaleComputer {
                         WebSession = $Session
                     }
 
-                    Invoke-RestMethod @irmParams
+                    $null = Try { 
+                        Invoke-RestMethod @irmParams -ErrorAction Stop
+                    } catch { $_.Exception.Message}
             
                 }
             }
@@ -59,7 +61,10 @@ function Remove-CCMStaleComputer {
                         WebSession = $Session
                     }
 
-                    Invoke-RestMethod @irmParams
+                    $null = try {
+                        Invoke-RestMethod @irmParams -ErrorAction Stop
+                    }
+                    catch { $_.Exception.Message}
                 }
             }
         }
