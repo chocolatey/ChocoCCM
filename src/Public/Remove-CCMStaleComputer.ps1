@@ -25,7 +25,7 @@ function Remove-CCMStaleComputer {
     Param(
         [Alias('Id')]
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
-        [String[]]
+        [Int[]]
         $ComputerId,
 
         [Parameter()]
