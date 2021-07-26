@@ -24,7 +24,7 @@ Function Get-CCMComputer {
     .NOTES
     
     #>
-    [cmdletBinding(DefaultParameterSetName = "All",HelpUri="https://chocolatey.org/docs/get-ccmcomputer")]
+    [cmdletBinding(DefaultParameterSetName = "All", HelpUri = "https://chocolatey.org/docs/get-ccmcomputer")]
     Param(
 
         [Parameter(Mandatory, ParameterSetName = "Computer")]
@@ -59,23 +59,75 @@ Function Get-CCMComputer {
                 
                 Foreach ($c in $computer) {
 
-                    [pscustomobject]$records.result | Where-Object { $_.name -match "$c" } 
-                
+                    $records.result | Where-Object { $_.name -match "$c" } | Foreach-Object {
+                        [PSCustomObject]@{
+                            computerGuid                               = $_.computerGuid
+                            name                                       = $_.name
+                            friendlyName                               = $_.friendlyName
+                            ipAddress                                  = $_.ipAddress
+                            listLocalOnlyReportChecksum                = $_.listLocalOnlyReportChecksum
+                            outdatedReportChecksum                     = $_.outdatedReportChecksum
+                            lastCheckInDateTime                        = $_.lastCheckInDateTime
+                            fqdn                                       = $_.fqdn
+                            ccmServiceName                             = $_.ccmServiceName
+                            availableForDeploymentsBasedOnLicenseCount = $_.availableForDeploymentsBasedOnLicenseCount
+                            optedIntoDeploymentBasedOnConfig           = $_.optedIntoDeploymentBasedOnConfig
+                            software                                   = $_.software
+                            groups                                     = $_.groups
+                            users                                      = $_.users
+                            chocolateyConfigurationFeatures            = $_.chocolateyConfigurationFeatures
+                            id                                         = $_.id
+                        }
+                    }
                 }
-
             }
 
             "Id" {
 
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/Computers/GetComputerForEdit?Id=$Id" -WebSession $Session
-                $records
-
+                $records | Foreach-Object {
+                    [PSCustomObject]@{
+                        computerGuid                               = $_.computerGuid
+                        name                                       = $_.name
+                        friendlyName                               = $_.friendlyName
+                        ipAddress                                  = $_.ipAddress
+                        listLocalOnlyReportChecksum                = $_.listLocalOnlyReportChecksum
+                        outdatedReportChecksum                     = $_.outdatedReportChecksum
+                        lastCheckInDateTime                        = $_.lastCheckInDateTime
+                        fqdn                                       = $_.fqdn
+                        ccmServiceName                             = $_.ccmServiceName
+                        availableForDeploymentsBasedOnLicenseCount = $_.availableForDeploymentsBasedOnLicenseCount
+                        optedIntoDeploymentBasedOnConfig           = $_.optedIntoDeploymentBasedOnConfig
+                        software                                   = $_.software
+                        groups                                     = $_.groups
+                        users                                      = $_.users
+                        chocolateyConfigurationFeatures            = $_.chocolateyConfigurationFeatures
+                        id                                         = $_.id
+                    }
+                }
             }
 
             default {
-                
-                $records.result
-    
+                $records.result | Foreach-Object {
+                    [PSCustomObject]@{
+                        computerGuid                               = $_.computerGuid
+                        name                                       = $_.name
+                        friendlyName                               = $_.friendlyName
+                        ipAddress                                  = $_.ipAddress
+                        listLocalOnlyReportChecksum                = $_.listLocalOnlyReportChecksum
+                        outdatedReportChecksum                     = $_.outdatedReportChecksum
+                        lastCheckInDateTime                        = $_.lastCheckInDateTime
+                        fqdn                                       = $_.fqdn
+                        ccmServiceName                             = $_.ccmServiceName
+                        availableForDeploymentsBasedOnLicenseCount = $_.availableForDeploymentsBasedOnLicenseCount
+                        optedIntoDeploymentBasedOnConfig           = $_.optedIntoDeploymentBasedOnConfig
+                        software                                   = $_.software
+                        groups                                     = $_.groups
+                        users                                      = $_.users
+                        chocolateyConfigurationFeatures            = $_.chocolateyConfigurationFeatures
+                        id                                         = $_.id
+                    }
+                }
             }
             
 
