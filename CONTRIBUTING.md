@@ -1,46 +1,43 @@
 # Contributing
 The Chocolatey team has very explicit information here regarding the process for contributions, and we will be sticklers about the way you write your commit messages (yes, really), so to save yourself some rework, please make sure you read over this entire document prior to contributing.
 
-<!-- vscode-markdown-toc -->
-* [Are You In the Right Place?](#AreYouIntheRightPlace)
-	* [Reporting an Issue / Bug?](#ReportinganIssueBug)
-	* [Submitting an Enhancement / Feature Request?](#SubmittinganEnhancementFeatureRequest)
-* [Contributing](#Contributing)
-	* [Prerequisites](#Prerequisites)
-		* [Definition of Trivial Contributions](#DefinitionofTrivialContributions)
-		* [Is the CLA Really Required?](#IstheCLAReallyRequired)
-* [Contributing Process](#ContributingProcess)
-	* [Get Buyoff Or Find Open Community Issues/Features](#GetBuyoffOrFindOpenCommunityIssuesFeatures)
-	* [Set Up Your Environment](#SetUpYourEnvironment)
-	* [Prepare Commits](#PrepareCommits)
-	* [Submit Pull Request (PR)](#SubmitPullRequestPR)
-	* [Respond to Feedback on Pull Request](#RespondtoFeedbackonPullRequest)
-* [Other General Information](#OtherGeneralInformation)
+<!-- TOC -->
 
-<!-- vscode-markdown-toc-config
-	numbering=false
-	autoSave=true
-	/vscode-markdown-toc-config -->
-<!-- /vscode-markdown-toc -->
+- [Are You In the Right Place?](#are-you-in-the-right-place)
+  - [Reporting an Issue/Bug?](#reporting-an-issuebug)
+  - [Submitting an Enhancement / Feature Request?](#submitting-an-enhancement--feature-request)
+- [Contributing](#contributing)
+  - [Prerequisites](#prerequisites)
+    - [Definition of Trivial Contributions](#definition-of-trivial-contributions)
+    - [Is the CLA Really Required?](#is-the-cla-really-required)
+- [Contributing Process](#contributing-process)
+  - [Get Buyoff Or Find Open Community Issues/Features](#get-buyoff-or-find-open-community-issuesfeatures)
+  - [Set Up Your Environment](#set-up-your-environment)
+  - [Prepare Commits](#prepare-commits)
+  - [Submit Pull Request (PR)](#submit-pull-request-pr)
+  - [Respond to Feedback on Pull Request](#respond-to-feedback-on-pull-request)
+- [Other General Information](#other-general-information)
 
-## <a name='AreYouIntheRightPlace'></a>Are You In the Right Place?
-Chocolatey is a large ecosystem and each component has their own location for submitting issues and enhancement requests. This is the repository for Chocolatey Central Management PowerShell module (ChocoCCM).
+<!-- /TOC -->
+
+## Are You In the Right Place?
+Chocolatey is a large ecosystem and each component has their own location for submitting issues and enhancement requests. This is the repository for Chocolatey Ansible collection.
 
 Please follow this decision criteria to see if you are in the right location or if you should head to a different location to submit your request.
 
-### <a name='ReportinganIssueBug'></a>Reporting an Issue / Bug?
+### Reporting an Issue/Bug?
 
 Submitting an Issue (or a Bug)? See the **[Submitting Issues](https://github.com/chocolatey/chococcm/tree/master/README.md#submitting-issues) section** in the README.
 
-### <a name='SubmittinganEnhancementFeatureRequest'></a>Submitting an Enhancement / Feature Request?
+### Submitting an Enhancement / Feature Request?
 
 If this is for Chocolatey Ansible collection, this is the right place. See below. Otherwise see [Submitting Issues](https://github.com/chocolatey/chococcm/tree/master/README.md#submitting-issues).
 
-## <a name='Contributing'></a>Contributing
+## Contributing
 
 The process for contributions is roughly as follows:
 
-### <a name='Prerequisites'></a>Prerequisites
+### Prerequisites
 
  * Submit an [issue](https://github.com/chocolatey/chococcm/issues). You will need the issue id for your commits.
  * Ensure you have signed the Contributor License Agreement (CLA) - without this we are not able to take contributions that are not trivial.
@@ -49,7 +46,7 @@ The process for contributions is roughly as follows:
   * If you are curious why we would require a CLA, we agree with Julien Ponge - take a look at his [post](https://julien.ponge.org/blog/in-defense-of-contributor-license-agreements/).
  * You agree to follow the [etiquette regarding communication](https://github.com/chocolatey/choco#etiquette-regarding-communication).
 
-#### <a name='DefinitionofTrivialContributions'></a>Definition of Trivial Contributions
+#### Definition of Trivial Contributions
 
 It's hard to define what is a trivial contribution. Sometimes even a 1 character change can be considered significant. Unfortunately because it can be subjective, the decision on what is trivial comes from the committers of the project and not from folks contributing to the project. It is generally safe to assume that you may be subject to signing the [CLA](https://www.clahub.com/agreements/chocolatey/choco) and be prepared to do so. Ask in advance if you are not sure and for reasons are not able to sign the [CLA](https://www.clahub.com/agreements/chocolatey/choco).
 
@@ -63,7 +60,7 @@ What is generally not considered trivial:
 
  * Changes to any code that would be delivered as part of the final product. This includes any scripts that are delivered, such as PowerShell scripts. Yes, even 1 character changes could be considered non-trivial.
 
-#### <a name='IstheCLAReallyRequired'></a>Is the CLA Really Required?
+#### Is the CLA Really Required?
 
 Yes, and this aspect is not up for discussion. If you would like more resources on understanding CLAs, please see the following articles:
 
@@ -76,17 +73,17 @@ Overall, the flexibility and legal protections provided by a CLA make it necessa
 
 If you work for an organization that does not allow you to contribute without attempting to own the rights to your work, please do not sign the CLA.
 
-## <a name='ContributingProcess'></a>Contributing Process
+## Contributing Process
 
 Start with [Prerequisites](#prerequisites) and make sure you can sign the Contributor License Agreement (CLA).
 
-### <a name='GetBuyoffOrFindOpenCommunityIssuesFeatures'></a>Get Buyoff Or Find Open Community Issues/Features
+### Get Buyoff Or Find Open Community Issues/Features
 
- * Through a GitHub issue, talk about a feature or bug fix you like and why it should be in the Chocolatey Ansible Collection.
+ * Through a Github issue, talk about a feature or bug fix you like and why it should be in the Chocolatey Ansible Collection.
  * Once you get a nod from one of the [Chocolatey Team](https://github.com/chocolatey?tab=members), you can start on the feature.
  * Alternatively, if a feature is on the issues list with the [Up For Grabs](https://github.com/chocolatey/chococcm/labels/Up For Grabs %2F Hacktoberfest) label, it is open for a community member (contributor) to patch. You should comment that you are signing up for it on the issue so someone else doesn't also sign up for the work.
 
-### <a name='SetUpYourEnvironment'></a>Set Up Your Environment
+### Set Up Your Environment
 
  * For git specific information:
     1. Create a fork of chocolatey/chococcm under your GitHub account. See [forks](https://help.github.com/articles/working-with-forks/) for more information.
@@ -113,7 +110,8 @@ Start with [Prerequisites](#prerequisites) and make sure you can sign the Contri
     * While not an absolute requirement, automated tests will help reviewers feel comfortable about your changes, which gets your contributions accepted faster.
  * Please do not update your branch from the master unless we ask you to. See the responding to feedback section below.
 
-### <a name='PrepareCommits'></a>Prepare Commits
+### Prepare Commits
+
 This section serves to help you understand what makes a good commit.
 
 A commit should observe the following:
@@ -149,7 +147,7 @@ Without this change the install script will not fully install the new
 choco client properly.
 ```
 
-### <a name='SubmitPullRequestPR'></a>Submit Pull Request (PR)
+### Submit Pull Request (PR)
 
 Prerequisites:
 
@@ -164,7 +162,7 @@ Submitting PR:
  * Once the pull request is in, please do not delete the branch or close the pull request (unless something is wrong with it).
  * One of the Chocolatey Team members, or one of the committers, will evaluate it within a reasonable time period (which is to say usually within 2-4 weeks). Some things get evaluated faster or fast tracked. We are human and we have active lives outside of open source so don't fret if you haven't seen any activity on your pull request within a month or two. We don't have a Service Level Agreement (SLA) for pull requests. Just know that we will evaluate your pull request.
 
-### <a name='RespondtoFeedbackonPullRequest'></a>Respond to Feedback on Pull Request
+### Respond to Feedback on Pull Request
 
 We may have feedback for you in the form of requested changes or fixes. We generally like to see that pushed against the same topic branch (it will automatically update the PR). You can also fix/squash/rebase commits and push the same topic branch with `--force` (while it is generally acceptable to do this on topic branches not in the main repository, a force push should be avoided at all costs against the main repository).
 
@@ -185,7 +183,7 @@ The only reasons a pull request should be closed and resubmitted are as follows:
   * When the pull request is targeting the wrong branch (this doesn't happen as often).
   * When there are updates made to the original by someone other than the original contributor (and the PR is not open for contributions). Then the old branch is closed with a note on the newer branch this supersedes #github_number.
 
-## <a name='OtherGeneralInformation'></a>Other General Information
+## Other General Information
 
 If you reformat code or hit core functionality without an approval from a person on the Chocolatey Team, it's likely that no matter how awesome it looks afterwards, it will probably not get accepted. Reformatting code makes it harder for us to evaluate exactly what was changed.
 
