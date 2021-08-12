@@ -16,14 +16,19 @@ function Add-CCMGroupMember {
     The group(s) to add
 
     .EXAMPLE
-    Add-CCMGroupMember -Group 'Newly Imaged' -Computer Lab1,Lab2,Lab3
+    Add-CCMGroupMember -Name 'Newly Imaged' -Computer Lab1,Lab2,Lab3
+
+    .EXAMPLE
+    Add-CCMGroupMember -Name 'Newly Imaged' -Group 'New Laptops' -Computer Lab1,Lab2,Lab3
+
+    .EXAMPLE
+    Add-CCMGroupMember -Name 'Newly Imaged' -Group 'New Laptops'
 
     #>
-    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/addccmgroupmember")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/addccmgroupmember", DefaultParameterSetName = 'Computer')]
     param(
-        [Parameter(Mandatory)]
-        [Parameter(ParameterSetName = "Computer")]
-        [Parameter(ParameterSetName = "Group")]
+        [Parameter(Mandatory, ParameterSetName = "Computer")]
+        [Parameter(Mandatory, ParameterSetName = "Group")]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
@@ -106,8 +111,18 @@ function Add-CCMGroupMember {
             Name        = $current.Name
             Id          = $current.Id
             Description = $current.Description
-            Groups      = @($GroupCollection)
-            Computers   = @($ComputerCollection)
+            Groups      = if ($GroupCollection.Count -gt 0) {
+                $GroupCollection.ToArray()
+            }
+            else {
+                $null
+            }
+            Computers   = if ($ComputerCollection.Count -gt 0) {
+                $ComputerCollection.ToArray()
+            }
+            else {
+                $null
+            }
         } | ConvertTo-Json -Depth 3
 
         Write-Verbose $body
