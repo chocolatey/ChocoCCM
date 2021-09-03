@@ -1,29 +1,29 @@
-function Add-CCMGroupMember {
+function Add-CCMGroupMember2 {
     <#
     .SYNOPSIS
     Adds a member to an existing Group in Central Management
     
     .DESCRIPTION
-    Add new computers and groups to existing Central Management Groups
-    
-    .PARAMETER Name
+    Add new computers and | or groups to existing Central Management Groups. At least one must be used.
+        
+    .PARAMETER Name [MANDATORY]
     The group to edit
     
-    .PARAMETER Computer
+    .PARAMETER Computer [OPTIONAL]
     The computer(s) to add
     
-    .PARAMETER Group
+    .PARAMETER Group [OPTIONAL]
     The group(s) to add
     
     .EXAMPLE
-    Add-CCMGroupMember -Group 'Newly Imaged' -Computer Lab1,Lab2,Lab3
+    Add-CCMGroupMember -Name 'All Newly Imaged' -Group 'New Laptops' -Computer Lab1,Lab2,Lab3
+    Add-CCMGroupMember -Name 'All Newly Imaged' -Computer Lab1,Lab2,Lab3
+    Add-CCMGroupMember -Name 'All Newly Imaged' -Group 'New Laptops'
     
     #>
     [cmdletBinding(HelpUri = "https://chocolatey.org/docs/add-ccmgroup-member")]
     param(
         [parameter(Mandatory = $true)]
-        [parameter(ParameterSetName = "Computer")]
-        [parameter(ParameterSetName = "Group")]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
@@ -42,15 +42,10 @@ function Add-CCMGroupMember {
         )]
         [string]
         $Name,
-        
-        [parameter(Mandatory = $true, ParameterSetName = "Computer")]
-        [Parameter(ParameterSetName='Group')]
-        [string[]]
-        $Computer,
+         
+        [string]$Computer,
 
-        [parameter(Mandatory = $true ,ParameterSetName = "Group")]
-        [string[]]
-        $Group
+        [string]$Group
     )
 
     begin {
@@ -58,6 +53,8 @@ function Add-CCMGroupMember {
         if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
+
+        if(-not($Computer) -and (-not($Group))) { Throw “Please ensure that at least one parameter is used to add member(s): Computer | Group” }
         
         $computers = Get-CCMComputer
         $groups = Get-CCMGroup
@@ -67,15 +64,16 @@ function Add-CCMGroupMember {
 
         $id = Get-CCMGroup -Group $name | Select-Object -ExpandProperty Id
         $current = Get-CCMGroup -Id $id | Select-Object *
-        $current.computers | ForEach-Object { $ComputerCollection.Add([pscustomobject]@{computerId = "$($_.computerId)" }) }
-        
     }
+   
 
-    process {
-
-        switch ($PSCmdlet.ParameterSetName) {
-            { $Computer } {
-
+    process{
+        if ([string]::IsNullOrEmpty($Computer)){
+                $processedComputers = @()
+        }
+       
+        else {
+            
                 foreach ($c in $Computer) {
                     if($c -in $current.computers.computerName){
                         Write-Warning "Skipping $c, already exists"
@@ -85,35 +83,46 @@ function Add-CCMGroupMember {
                         $ComputerCollection.Add([pscustomobject]@{computerId = "$($Cresult.Id)" })
                     }
                 }
-
-                $processedComputers = $ComputerCollection
-                
             }
+         
+        #Add any current computers into the array
+        $current.computers | ForEach-Object { $ComputerCollection.Add([pscustomobject]@{computerId = "$($_.computerId)" }) }             
+        $processedComputers = $ComputerCollection           
+            
 
-            'Group' {
-
+       if ([string]::IsNullOrEmpty($Group)) {
+                $processedGroups = @()
+       }
+       else {
+        
                 foreach ($g in $Group) {
                     if($g -in $current.groups.subGroupName){
                         Write-Warning "Skipping $g, already exists"
                     }
                     else {
-                    $Gresult = $groups | Where-Object { $_.Name -eq "$g" } | Select-Object Id
-                    $GroupCollection.Add([pscustomobject]@{subGroupId = "$($Gresult.Id)"})
+                        $Gresult = $groups | Where-Object { $_.Name -eq "$g" } | Select-Object Id
+                        $GroupCollection.Add([pscustomobject]@{subGroupId = "$($Gresult.Id)"})
+                    }
                 }
-                }
-                $processedGroups = $GroupCollection
             }
-        }
+          
+       
+        #Add any current groups into the array
+        $current.groups | ForEach-Object { $GroupCollection.Add([pscustomobject]@{subGroupId = "$($_.subGroupId)" }) }             
+        $processedGroups = $GroupCollection           
+            
         
         $body = @{
             Name        = $Name
             Id          = ($groups | Where-Object { $_.name -eq "$Name" } | Select-Object  -ExpandProperty Id)
             Description = ($groups | Where-Object { $_.name -eq "$Name" } | Select-Object  -ExpandProperty Description)
-            Groups      = if (-not $processedGroups) { @() } else { @(,$processedGroups) }
-            Computers   = if (-not $processedComputers) { @() } else { @(,$processedComputers) }
+            Groups      = $processedGroups
+            Computers   = $processedComputers
+
         } | ConvertTo-Json -Depth 3
 
         Write-Verbose $body
+        write-host $body
         $irmParams = @{
             Uri         = "$($protocol)://$hostname/api/services/app/Groups/CreateOrEdit"
             Method      = "post"
@@ -135,7 +144,7 @@ function Add-CCMGroupMember {
 
         }
 
-        catch {
+         catch {
             throw $_.Exception.Message
         }
     }
