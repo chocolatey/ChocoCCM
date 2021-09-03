@@ -1,4 +1,4 @@
-function Add-CCMGroupMember2 {
+function Add-CCMGroupMember {
     <#
     .SYNOPSIS
     Adds a member to an existing Group in Central Management
