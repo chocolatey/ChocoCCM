@@ -101,7 +101,9 @@ FunctionsToExport = @('Connect-CCMServer',
 'Get-CCMOutdatedSoftwarereportDetail',
 'Export-CCMOutdatedSoftwareReport',
 'Set-CCMNotificationStatus',
-'Get-CCMRole')
+'Get-CCMRole',
+'Get-CCMStaleComputer',
+'Remove-CCMStaleComputer')
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = '*'
