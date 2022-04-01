@@ -43,7 +43,8 @@ This will setup and store a $Session variable
 1. Clone this repository:
 
     ```powershell
-    git clone https://gitlab.com/chocolatey/central-management/chocoCCM.git
+    git clone https://github.com/chocolatey/ChocoCCM.git
+    cd ChocoCCM
     ```
 
 2. Run build script
