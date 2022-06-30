@@ -15,8 +15,12 @@ function New-CCMDeploymentStep {
     .PARAMETER TargetGroup
     The group(s) the step will target
 
-    .PARAMETER ExecutionTimeoutSeconds
-    How long to wait for the step to timeout. Defaults to 14400 (4 hours)
+    .PARAMETER ExecutionTimeout
+    How long to wait, in seconds, for the step to timeout. Defaults to 14400 (4 hours)
+
+    .PARAMETER MachineContactTimeout
+    How long to wait, in minutes, for computers to check in to start the deployment before timing out.
+    Defaults to 0 (no timeout).
 
     .PARAMETER FailOnError
     Fail the step if there is an error. Defaults to True
@@ -98,8 +102,14 @@ function New-CCMDeploymentStep {
         $TargetGroup = @(),
 
         [Parameter()]
+        [Alias('ExecutionTimeoutSeconds', 'ExecutionTimeoutInSeconds')]
         [string]
-        $ExecutionTimeoutSeconds = '14400',
+        $ExecutionTimeout = '14400',
+
+        [Parameter()]
+        [Alias('MachineContactTimeoutInMinutes', 'MachineContactTimeoutMinutes')]
+        [string]
+        $MachineContactTimeout = 0,
 
         [Parameter()]
         [switch]
@@ -144,19 +154,20 @@ function New-CCMDeploymentStep {
         switch ($PSCmdlet.ParameterSetName) {
             'Basic' {
                 $Body = @{
-                    name                         = $Name
-                    deploymentPlanId             = (Get-CCMDeployment -Name $Deployment).id
-                    deploymentStepGroups         = @(
+                    name                           = $Name
+                    deploymentPlanId               = (Get-CCMDeployment -Name $Deployment).id
+                    deploymentStepGroups           = @(
                         Get-CCMGroup -Group $TargetGroup | Select-Object -Property @(
                             @{ Name = "groupId"; Expression = { $_.id } }
                             @{ Name = "groupName"; Expression = { $_.name } }
                         )
                     )
-                    executionTimeoutInSeconds    = $ExecutionTimeout
-                    requireSuccessOnAllComputers = $RequireSuccessOnAllComputers
-                    failOnError                  = $FailOnError
-                    validExitCodes               = $ValidExitCodes -join ','
-                    script                       = "{0}|{1}" -f @($ChocoCommand.ToLower(), $PackageName)
+                    executionTimeoutInSeconds      = $ExecutionTimeout
+                    machineContactTimeoutInMinutes = $MachineContactTimeout
+                    requireSuccessOnAllComputers   = $RequireSuccessOnAllComputers
+                    failOnError                    = $FailOnError
+                    validExitCodes                 = $ValidExitCodes -join ','
+                    script                         = "{0}|{1}" -f @($ChocoCommand.ToLower(), $PackageName)
                 } | ConvertTo-Json -Depth 3
 
                 $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
