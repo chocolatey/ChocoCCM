@@ -1,4 +1,8 @@
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseCorrectCasing', '', Justification = 'Rule is tripping over non-issues in this file')]
+param()
+
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
+
 
 Import-Module $module -Force
 
@@ -135,10 +139,5 @@ Describe "Add-CCMGroup Tests" {
         )
 
         $group | Should -BeOfType "System.Management.Automation.PSCustomObject"
-    }
-
-    It "Should have 4 properties" {
-        $group = Add-CCMGroup
-        ($group | Get-Member -MemberType NoteProperty).Count | Should -BeExactly 4cd ..
     }
 }

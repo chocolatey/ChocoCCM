@@ -1,15 +1,15 @@
 Describe "Module Import Checks" {
 
     BeforeAll {
-        $module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+        $module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
     }
 
     It "The psd1 should be found" {
         $module | Should -Not -BeNullOrEmpty
     }
 
-    It "Module should import without erros" {
-        { Import-Module "$module" } | Should -Not -Throw
+    It "Module should import without errors" {
+        { Import-Module $module } | Should -Not -Throw
     }
 
     It "Should return all public functions" {

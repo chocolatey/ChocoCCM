@@ -1,4 +1,4 @@
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
 
 Import-Module $module -Force
 
@@ -26,8 +26,8 @@ Describe "CCM Computer Functions" {
                 lastCheckInDateTime                        = "$(Get-Date)"
                 fqdn                                       = 'ccmserver'
                 ccmServiceName                             = 'ccmserver'
-                availableForDeploymentsBasedOnLicenseCount = True
-                optedIntoDeploymentBasedOnConfig           = True
+                availableForDeploymentsBasedOnLicenseCount = $true
+                optedIntoDeploymentBasedOnConfig           = $true
                 software                                   = {}
                 groups                                     = {}
                 users                                      = {}
