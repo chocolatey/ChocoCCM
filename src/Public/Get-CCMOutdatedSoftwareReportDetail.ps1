@@ -2,32 +2,29 @@ function Get-CCMOutdatedSoftwareReportDetail {
     <#
     .SYNOPSIS
     View detailed information about an Outdated Software Report
-    
+
     .DESCRIPTION
     Return report details from an Outdated Software Report in Central Management
-    
+
     .PARAMETER Report
     The report to query
-    
+
     .EXAMPLE
     Get-CCMOutdatedSoftwareReportDetail -Report '7/4/2020 6:44:40 PM'
-    
+
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmoutdated-software-report-detail")]
+    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/get-ccmoutdated-software-report-detail")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMOutdatedSoftwareReport).creationTime
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -37,21 +34,21 @@ function Get-CCMOutdatedSoftwareReportDetail {
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
     process {
-        $reportId = Get-CCMOutdatedSoftwareReport | Where-Object {$_.creationTime -eq "$Report"} | Select -ExpandProperty id
+        $reportId = Get-CCMOutdatedSoftwareReport | Where-Object { $_.creationTime -eq "$Report" } | Select-Object -ExpandProperty id
 
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/OutdatedReports/GetAllByReportId?reportId=$reportId&sorting=outdatedReport.packageDisplayText%20asc&skipCount=0&maxResultCount=200"
-            Method = "Get"
+            Uri         = "$($protocol)://$hostname/api/services/app/OutdatedReports/GetAllByReportId?reportId=$reportId&sorting=outdatedReport.packageDisplayText%20asc&skipCount=0&maxResultCount=200"
+            Method      = "GET"
             ContentType = "application/json"
-            WebSession = $Session
+            WebSession  = $Session
         }
 
-        try{
+        try {
             $response = Invoke-RestMethod @irmParams -ErrorAction Stop
         }
         catch {
@@ -59,6 +56,5 @@ function Get-CCMOutdatedSoftwareReportDetail {
         }
 
         $response.result.items.outdatedReport
-
     }
 }

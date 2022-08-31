@@ -2,40 +2,37 @@ function Remove-CCMGroupMember {
     <#
     .SYNOPSIS
     Remove a member from a Central Management Group
-    
+
     .DESCRIPTION
     Remove a member from a Central Management Group
-    
+
     .PARAMETER Group
     The group you want to remove a member from
-    
+
     .PARAMETER GroupMember
     The group(s) to remove from the group
 
     .PARAMETER ComputerMember
     The computer(s) to remove from the group
-    
+
     .EXAMPLE
     Remove-CCMGroupMember -Group TestLab -ComputerMember TestPC1
 
     .EXAMPLE
     Remove-CCMGroupMember -Group TestLab -ComputerMember Test1,Test2 -GroupMember SecondLab
     #>
-    [cmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmgroup-member")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmgroup-member")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMGroup -All).Name
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -43,11 +40,11 @@ function Remove-CCMGroupMember {
         [string]
         $Group,
 
-        [parameter()]
+        [Parameter()]
         [string[]]
         $GroupMember,
 
-        [parameter()]
+        [Parameter()]
         [string[]]
         $ComputerMember
     )
@@ -59,7 +56,6 @@ function Remove-CCMGroupMember {
     }
 
     process {
-
         $currentMembers = Get-CCMGroupMember -Group $Group
         $G = Get-CCMGroup -Group $Group
         $currentMembers | Add-Member -MemberType NoteProperty -Name Id -Value $G.Id
@@ -89,7 +85,7 @@ function Remove-CCMGroupMember {
             Body        = $body
             WebSession  = $Session
         }
-                
+
         Write-Verbose $body
         try {
             $result = Invoke-RestMethod @irmParams -ErrorAction Stop
@@ -103,7 +99,5 @@ function Remove-CCMGroupMember {
         catch {
             throw $_.Exception.Message
         }
-        
     }
-
 }

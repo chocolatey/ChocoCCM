@@ -24,9 +24,8 @@ function Get-CCMDeployment {
     .EXAMPLE
     Get-CCMDeployment -Id 583 -IncludeStepResults
     #>
-    [CmdletBinding(DefaultParameterSetname = "default", HelpUri="https://chocolatey.org/docs/get-ccmdeployment")]
+    [CmdletBinding(DefaultParameterSetname = "default", HelpUri = "https://chocolatey.org/docs/get-ccmdeployment")]
     param(
-
         [Parameter(ParameterSetName = "Name", Mandatory)]
         [string]
         $Name,
@@ -48,16 +47,13 @@ function Get-CCMDeployment {
     }
 
     process {
-
         if (-not $Id) {
             $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetAll" -WebSession $Session
         }
 
         switch ($PSCmdlet.ParameterSetName) {
-
             'Name' {
-
-                $queryId = $records.result | Where-Object { $_.Name -eq "$Name"} | Select-Object -ExpandProperty Id
+                $queryId = $records.result | Where-Object { $_.Name -eq "$Name" } | Select-Object -ExpandProperty Id
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$queryId" -WebSession $Session
 
                 if ($IncludeStepResults) {
@@ -69,9 +65,7 @@ function Get-CCMDeployment {
                 else {
                     $records.result.deploymentPlan
                 }
-
             }
-
             'Id' {
                 $records = Invoke-RestMethod -Uri "$($protocol)://$Hostname/api/services/app/DeploymentPlans/GetDeploymentPlanForEdit?Id=$id" -WebSession $Session
 
@@ -85,11 +79,9 @@ function Get-CCMDeployment {
                     $records.result.deploymentPlan
                 }
             }
-
             default {
                 $records.result
             }
-
         }
     }
 }

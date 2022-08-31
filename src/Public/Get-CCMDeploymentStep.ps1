@@ -32,6 +32,7 @@ function Get-CCMDeploymentStep {
             WebSession = $script:Session
             Body       = @{ Id = $Id }
         }
+
         $result = Invoke-RestMethod @params
 
         if ($IncludeResults) {

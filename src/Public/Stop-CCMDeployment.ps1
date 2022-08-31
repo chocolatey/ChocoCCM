@@ -2,31 +2,28 @@ function Stop-CCMDeployment {
     <#
     .SYNOPSIS
     Stops a running CCM Deployment
-    
+
     .DESCRIPTION
     Stops a deployment current running in Central Management
-    
+
     .PARAMETER Deployment
     The deployment to Stop
-    
+
     .EXAMPLE
     Stop-CCMDeployment -Deployment 'Upgrade VLC'
-    
+
     #>
-    [cmdletBinding(ConfirmImpact = "high", SupportsShouldProcess,HelpUri="https://chocolatey.org/docs/stop-ccmdeployment")]
+    [cmdletBinding(ConfirmImpact = "high", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/stop-ccmdeployment")]
     param(
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMDeployment).Name
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -34,14 +31,16 @@ function Stop-CCMDeployment {
         [string]
         $Deployment
     )
+
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
+
         $deployId = Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id
     }
+
     process {
-    
         if ($PSCmdlet.ShouldProcess("$Deployment", "CANCEL")) {
             $irmParams = @{
                 Uri         = "$($protocol)://$hostname/api/services/app/DeploymentPlans/Cancel"

@@ -1,36 +1,33 @@
 function Move-CCMDeploymentToReady {
-<#
+    <#
     .SYNOPSIS
     Moves a  deployment to Ready state
-    
+
     .DESCRIPTION
     Moves a Deployment to the Ready state so it can start
-    
+
     .PARAMETER Deployment
     The deployment  to  move
-    
+
     .EXAMPLE
     Move-CCMDeploymentToReady -Deployment 'Upgrade Outdated VLC'
 
     .EXAMPLE
     Move-CCMDeploymenttoReady -Deployment 'Complex Deployment'
-    
+
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/move-ccmdeployment-to-ready")]
+    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/move-ccmdeployment-to-ready")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = Get-CCMDeployment -All
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.name.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r.name
                 }
             }
@@ -39,16 +36,15 @@ function Move-CCMDeploymentToReady {
         $Deployment
     )
 
-    Begin {
-        if(-not $Session){
+    begin {
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
-        
+
         $id = (Get-CCMDeployment -Name $Deployment).id
-
     }
-    process {
 
+    process {
         $irmParams = @{
             Uri         = "$($protocol)://$hostname/api/services/app/DeploymentPlans/MoveToReady"
             Method      = "POST"
@@ -63,6 +59,5 @@ function Move-CCMDeploymentToReady {
         catch {
             throw $_.Exception.Message
         }
-        
     }
 }
