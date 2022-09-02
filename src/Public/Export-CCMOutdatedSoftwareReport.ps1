@@ -19,7 +19,7 @@ function Export-CCMOutdatedSoftwareReport {
     Export-CCMOutdatedSoftwareReport -Report '7/4/2020 6:44:40 PM' -Type PDF -OutputFolder C:\CCMReports
 
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/export-ccmoutdated-software-report")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/exportccmoutdatedsoftwarereport")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

@@ -24,7 +24,7 @@ function Get-CCMComputer {
     .NOTES
 
     #>
-    [CmdletBinding(DefaultParameterSetName = "All", HelpUri = "https://chocolatey.org/docs/get-ccmcomputer")]
+    [CmdletBinding(DefaultParameterSetName = "All", HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmcomputer")]
     param(
         [Parameter(Mandatory, ParameterSetName = "Computer")]
         [string[]]

@@ -13,7 +13,7 @@ function New-CCMDeployment {
     New-CCMDeployment -Name 'This is awesome'
 
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/new-ccmdeployment")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/newccmdeployment")]
     param(
         [Parameter(Mandatory)]
         [string]

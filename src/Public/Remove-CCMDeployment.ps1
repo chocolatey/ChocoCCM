@@ -16,7 +16,7 @@ function Remove-CCMDeployment {
     Remove-CCMDeployment -Name 'Deployment Alpha' -Confirm:$false
 
     #>
-    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmdeployment")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/removeccmdeployment")]
     param(
         [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [ArgumentCompleter(

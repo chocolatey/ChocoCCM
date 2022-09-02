@@ -29,7 +29,7 @@ function Get-CCMSoftware {
 
     .NOTES
     #>
-    [CmdletBinding(DefaultParameterSetname = "All", HelpUri = "https://chocolatey.org/docs/get-ccmsoftware")]
+    [CmdletBinding(DefaultParameterSetname = "All", HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmsoftware")]
     param(
         [Parameter(Mandatory, ParameterSetName = "Software")]
         [string]

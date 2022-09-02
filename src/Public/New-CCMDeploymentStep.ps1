@@ -57,7 +57,7 @@ function New-CCMDeploymentStep {
     New-CCMDeploymentStep -Deployment PowerShell -Name 'From ChocoCCM' -TargetGroup All,PowerShell -Type Advanced -Script {(Get-Content C:\script.txt)}
 
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/new-ccmdeployment-step")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/newccmdeploymentstep")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

@@ -16,7 +16,7 @@ function Move-CCMDeploymentToReady {
     Move-CCMDeploymenttoReady -Deployment 'Complex Deployment'
 
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/move-ccmdeployment-to-ready")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/moveccmdeploymenttoready")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

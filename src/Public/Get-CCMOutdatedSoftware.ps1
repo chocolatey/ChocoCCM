@@ -9,7 +9,7 @@ function Get-CCMOutdatedSoftware {
     .EXAMPLE
     Get-CCMOutdatedSoftware
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/get-ccmoutdated-software")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmoutdatedsoftware")]
     param()
 
     process {

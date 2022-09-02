@@ -22,7 +22,7 @@ function Get-CCMGroup {
     Get-CCMGroup -Group 'Web Servers'
 
     #>
-    [CmdletBinding(DefaultParameterSetName = "default", HelpUri = "https://chocolatey.org/docs/get-ccmgroup")]
+    [CmdletBinding(DefaultParameterSetName = "default", HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmgroup")]
     param(
 
         [Parameter(Mandatory, ParameterSetName = "Group")]

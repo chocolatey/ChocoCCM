@@ -12,7 +12,7 @@ function New-CCMOutdatedSoftwareReport {
     .NOTES
     Creates a new report named with a creation date timestamp in UTC format
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/new-ccmoutdated-software-report")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/newccmoutdatedsoftwarereport")]
     param()
 
     begin {

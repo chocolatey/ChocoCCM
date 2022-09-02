@@ -30,7 +30,7 @@
     Copyright         = 'Chocolatey Software, Inc.'
 
     # Description of the functionality provided by this module
-    Description       = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license. See https://chocolatey.org/docs/central-management for more information.'
+    Description       = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license. See https://docs.chocolatey.org/en-us/central-management/ for more information.'
 
     # Minimum version of the PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -69,39 +69,43 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @('Connect-CCMServer',
-        'Get-CCMComputer',
-        'Get-CCMSoftware',
-        'Get-CCMGroup',
-        'Add-CCMGroup',
-        'Set-CCMGroup',
-        'Remove-CCMGroup',
-        'Add-CCMGroupMember',
-        'Get-CCMGroupMember',
-        'Remove-CCMGroupMember',
-        'Get-CCMDeployment',
-        'Get-CCMDeploymentStepResult',
-        'New-CCMDeployment',
-        'New-CCMDeploymentStep',
-        'Set-CCMDeploymentStep',
-        'Remove-CCMDeployment',
-        'Remove-CCMDeploymentStep',
-        'Remove-CCMStaleDeployment',
-        'Start-CCMDeployment',
-        'Stop-CCMDeployment',
-        'Export-CCMDeployment',
-        'Export-CCMDeploymentReport',
-        'Move-CCMDeploymentToReady',
-        'Disable-CCMDeployment',
-        'Get-DeploymentResult',
-        'Get-CCMOutdatedSoftwareMember',
-        'Get-CCMOutdatedSoftware',
-        'New-CCMOutdatedSoftwareReport',
-        'Get-CCMOutdatedSoftwareReport',
-        'Get-CCMOutdatedSoftwarereportDetail',
-        'Export-CCMOutdatedSoftwareReport',
-        'Set-CCMNotificationStatus',
-        'Get-CCMRole')
+    FunctionsToExport = @(
+        'Connect-CCMServer'
+        'Get-CCMComputer'
+        'Get-CCMSoftware'
+        'Get-CCMGroup'
+        'Add-CCMGroup'
+        'Set-CCMGroup'
+        'Remove-CCMGroup'
+        'Add-CCMGroupMember'
+        'Get-CCMGroupMember'
+        'Remove-CCMGroupMember'
+        'Get-CCMDeployment'
+        'Get-CCMDeploymentStep'
+        'Get-CCMDeploymentStepResult'
+        'New-CCMDeployment'
+        'New-CCMDeploymentStep'
+        'Set-CCMDeploymentStep'
+        'Remove-CCMDeployment'
+        'Remove-CCMDeploymentStep'
+        'Remove-CCMStaleDeployment'
+        'Start-CCMDeployment'
+        'Stop-CCMDeployment'
+        'Export-CCMDeployment'
+        'Export-CCMDeploymentReport'
+        'Move-CCMDeploymentToReady'
+        'Disable-CCMDeployment'
+        'Get-DeploymentResult'
+        'Get-CCMOutdatedSoftwareMember'
+        'Get-CCMOutdatedSoftware'
+        'New-CCMOutdatedSoftwareReport'
+        'Get-CCMOutdatedSoftwareReport'
+        'Get-CCMOutdatedSoftwarereportDetail'
+        'Export-CCMOutdatedSoftwareReport'
+        'Set-CCMNotificationStatus'
+        'Get-CCMRole'
+        'Import-PDQDeployPackage'
+    )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = '*'
@@ -144,7 +148,7 @@
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module
-    HelpInfoURI       = 'https://chocolatey.org/docs/choco-ccmfunction-reference'
+    HelpInfoURI       = 'https://docs.chocolatey.org/en-us/central-management/chococcm/functions/'
 
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''

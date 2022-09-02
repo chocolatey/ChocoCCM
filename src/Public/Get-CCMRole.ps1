@@ -15,7 +15,7 @@ function Get-CCMRole {
     .EXAMPLE
     Get-CCMRole -Name CCMAdmin
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/get-ccmrole")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmrole")]
     param(
         [Parameter(ParameterSetName = "Name")]
         [string]

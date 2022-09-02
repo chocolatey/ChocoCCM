@@ -19,7 +19,7 @@ function Remove-CCMDeploymentStep {
     Remove-CCMDeploymentStep -Name 'Deployment Alpha' -Step 'Copy Files' -Confirm:$false
 
     #>
-    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmdeployment-step")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/removeccmdeploymentstep")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

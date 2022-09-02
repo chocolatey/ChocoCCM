@@ -13,7 +13,7 @@ function Get-CCMOutdatedSoftwareReportDetail {
     Get-CCMOutdatedSoftwareReportDetail -Report '7/4/2020 6:44:40 PM'
 
     #>
-    [CmdletBinding(HelpUri = "https://chocolatey.org/docs/get-ccmoutdated-software-report-detail")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmoutdatedsoftwarereportdetail")]
     param(
         [Parameter(Mandatory)]
         [ArgumentCompleter(

@@ -17,7 +17,7 @@ function Disable-CCMDeployment {
 
     #>
     [Alias('Archive-CCMDeployment')]
-    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/disable-ccmdeployment")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/disableccmdeployment")]
     param(
         [ArgumentCompleter(
             {

@@ -13,7 +13,7 @@ function Remove-CCMStaleDeployment {
     Remove-StaleCCMDeployment -Age 30
 
     #>
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High", HelpUri = "https://chocolatey.org/docs/remove-ccmstale-deployment")]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = "High", HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/removeccmstaledeployment")]
     param(
         [Parameter(Mandatory)]
         [string]

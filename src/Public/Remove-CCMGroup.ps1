@@ -19,7 +19,7 @@ function Remove-CCMGroup {
     Remove-CCMGroup -Group PilotPool -Confirm:$false
 
     #>
-    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://chocolatey.org/docs/remove-ccmgroup")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/removeccmdeploymentstep")]
     param(
         [ArgumentCompleter(
             {
