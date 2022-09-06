@@ -12,11 +12,19 @@ $commands = Get-Command -Module ChocoCCM | ForEach-Object {
 
 Describe "All commands have valid help" {
 
+    BeforeAll {
+        $client = [System.Net.Http.HttpClient]::new()
+    }
+
     It "<Name>: HelpUri for command is valid" -TestCases $commands {
         param($Name, $HelpUri, $CommandInfo)
 
         $HelpUri | Should -Not -BeNullOrEmpty
-        $request = [System.Net.WebRequest]::Create($HelpUri)
-        $request.GetResponse().StatusCode | Should -Be 'OK'
+        $response = $client.GetAsync($HelpUri).GetAwaiter().GetResult()
+        $response.StatusCode | Should -Be 'OK'
+    }
+
+    AfterAll {
+        $client.Dispose()
     }
 }
