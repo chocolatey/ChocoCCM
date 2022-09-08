@@ -1,16 +1,30 @@
-
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
 
 Import-Module $module -Force
 
-$commands = Get-Command -Module ChocoCCM
+$commands = Get-Command -Module ChocoCCM | ForEach-Object {
+    @{
+        'Name'        = $_.Name
+        'HelpUri'     = $_.HelpUri
+        'CommandInfo' = $_
+    }
+}
 
-Describe "Functions have valid help" {
-   
-    foreach ($Command in $Commands) {
-        It "$($Command.Name): HelpUri in CmdletBinding() resolves correctly" {
-            $request = [System.Net.WebRequest]::Create("$($Command.HelpUri)")
-            $request.StatusCode | Should -Be 'OK'
-        }
+Describe "All commands have valid help" {
+
+    BeforeAll {
+        $client = [System.Net.Http.HttpClient]::new()
+    }
+
+    It "<Name>: HelpUri for command is valid" -TestCases $commands {
+        param($Name, $HelpUri, $CommandInfo)
+
+        $HelpUri | Should -Not -BeNullOrEmpty
+        $response = $client.GetAsync($HelpUri).GetAwaiter().GetResult()
+        $response.StatusCode | Should -Be 'OK'
+    }
+
+    AfterAll {
+        $client.Dispose()
     }
 }

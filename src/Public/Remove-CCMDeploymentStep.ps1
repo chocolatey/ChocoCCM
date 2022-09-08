@@ -2,10 +2,10 @@ function Remove-CCMDeploymentStep {
     <#
     .SYNOPSIS
     Removes a deployment plan
-    
+
     .DESCRIPTION
     Removes the Deployment Plan selected from a Central Management installation
-    
+
     .PARAMETER Deployment
     The Deployment to  remove a step from
 
@@ -17,23 +17,20 @@ function Remove-CCMDeploymentStep {
 
     .EXAMPLE
     Remove-CCMDeploymentStep -Name 'Deployment Alpha' -Step 'Copy Files' -Confirm:$false
-    
+
     #>
-    [cmdletBinding(ConfirmImpact = "High", SupportsShouldProcess,HelpUri="https://chocolatey.org/docs/remove-ccmdeployment-step")]
+    [CmdletBinding(ConfirmImpact = "High", SupportsShouldProcess, HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/removeccmdeploymentstep")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMDeployment)
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.Name.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r.Name
                 }
             }
@@ -41,45 +38,42 @@ function Remove-CCMDeploymentStep {
         [string]
         $Deployment,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $d = (Get-CCMDeployment -Name $($FakeBoundParams.Deployment)).id
                 $idSteps = (Get-CCMDeployment -Id $d).deploymentSteps.Name
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $idSteps.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $idSteps
                 }
             }
         )]
         [string]
         $Step
-
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
+
         $deployId = Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id
         $deploymentSteps = Get-CCMDeployment -Id $deployId | Select-Object deploymentSteps
-        $stepId = $deploymentSteps.deploymentSteps | Where-Object { $_.Name -eq "$Step"} | Select -ExpandProperty id
-
+        $stepId = $deploymentSteps.deploymentSteps | Where-Object { $_.Name -eq "$Step" } | Select-Object -ExpandProperty id
     }
+
     process {
-    
         if ($PSCmdlet.ShouldProcess("$Step", "DELETE")) {
             $irmParams = @{
-                Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/Delete?Id=$stepId"
-                Method = "DELETE"
+                Uri         = "$($protocol)://$hostname/api/services/app/DeploymentSteps/Delete?Id=$stepId"
+                Method      = "DELETE"
                 ContentType = "application/json"
-                WebSession = $Session
+                WebSession  = $Session
             }
 
             $null = Invoke-RestMethod @irmParams

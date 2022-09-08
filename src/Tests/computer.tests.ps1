@@ -1,54 +1,50 @@
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
 
 Import-Module $module -Force
 
-
-Function Get-CCMComputer {
-
+function Get-CCMComputer {
     param($Computer)
 
     Invoke-RestMethod -Uri 'https://google.com'
 }
+
 Describe "CCM Computer Functions" {
 
-    Mock Invoke-Restmethod -MockWith {
+    Mock Invoke-RestMethod -MockWith {
 
         if ($Computer -and $Computer.Count -gt 1) {
-            $Computer | % { [pscustomobject] @{ name = $_ } }
-            
+            $Computer | ForEach-Object { [pscustomobject] @{ name = $_ } }
         }
         else {
             $foo = [pscustomobject]@{
-                computerGuid                               = "$((New-Guid).Guid)"                                                               
-                name                                       = 'ccmserver'                                                                                         
+                computerGuid                               = "$((New-Guid).Guid)"
+                name                                       = 'ccmserver'
                 friendlyName                               = $null
                 ipAddress                                  = 10.0.2.15
-                listLocalOnlyReportChecksum                = - 2031453698
+                listLocalOnlyReportChecksum                = -2031453698
                 outdatedReportChecksum                     = 487
                 lastCheckInDateTime                        = "$(Get-Date)"
                 fqdn                                       = 'ccmserver'
                 ccmServiceName                             = 'ccmserver'
-                availableForDeploymentsBasedOnLicenseCount = True
-                optedIntoDeploymentBasedOnConfig           = True
+                availableForDeploymentsBasedOnLicenseCount = $true
+                optedIntoDeploymentBasedOnConfig           = $true
                 software                                   = {}
                 groups                                     = {}
                 users                                      = {}
                 chocolateyConfigurationFeatures            = {}
                 id                                         = 1
-            } 
+            }
 
             return $foo
         }
     }
 
     It "Returns an object" {
-
         $computer = Get-CCMComputer
         $computer | Should -BeOfType "System.Management.Automation.PSCustomObject"
     }
 
     It "Should have 16 properties" {
-
         $computer = Get-CCMComputer -Computer Foo
         ($computer | Get-Member -MemberType NoteProperty).Count | Should -Be 16
     }

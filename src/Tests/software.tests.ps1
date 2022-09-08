@@ -1,24 +1,23 @@
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
 
 Import-Module $module -Force
 
-Function Get-CCMSoftware {
-
+function Get-CCMSoftware {
     param($Software, $Package, $Id)
 
     Invoke-RestMethod -Uri 'https://google.com'
 }
 
 Describe "CCM Software functions" {
-    Mock Invoke-Restmethod -MockWith {
 
+    Mock Invoke-RestMethod -MockWith {
         if ($Software -or $Package -or $Id) {
             $foo = [pscustomobject]@{
                 computerId           = 1
                 computer             = [pscustomobject]@{
-                    computerGuid                               = 'fc467c00-5331-47f1-876b-d6c7c537723e' 
+                    computerGuid                               = 'fc467c00-5331-47f1-876b-d6c7c537723e'
                     name                                       = 'ccmserver'
-                    friendlyName                               = $null 
+                    friendlyName                               = $null
                     ipAddress                                  = '10.0.2.15'
                     listLocalOnlyReportChecksum                = -2031453698
                     outdatedReportChecksum                     = 487
@@ -26,11 +25,11 @@ Describe "CCM Software functions" {
                     fqdn                                       = 'ccmserver'
                     ccmServiceName                             = 'ccmserver'
                     availableForDeploymentsBasedOnLicenseCount = $true
-                    optedIntoDeploymentBasedOnConfig           = $true 
-                    software                                   = $null 
-                    groups                                     = $null 
-                    users                                      = $null 
-                    chocolateyConfigurationFeatures            = $null 
+                    optedIntoDeploymentBasedOnConfig           = $true
+                    software                                   = $null
+                    groups                                     = $null
+                    users                                      = $null
+                    chocolateyConfigurationFeatures            = $null
                     id                                         = 1
                 }
                 softwareId           = 3
@@ -41,7 +40,7 @@ Describe "CCM Software functions" {
                     packageVersion        = '0.10.15'
                     packageTitle          = 'Chocolatey'
                     packageTitleTruncated = 'Chocolatey'
-                    softwareDisplayName   = $null 
+                    softwareDisplayName   = $null
                     softwareVersion       = $null
                     isOutdated            = 'False'
                     id                    = 3
@@ -52,11 +51,10 @@ Describe "CCM Software functions" {
             }
 
             return $foo
-            
         }
-
         else {
-            $foo = @([pscustomobject]@{
+            $foo = @(
+                [pscustomobject]@{
                     name                  = 'Chocolatey'
                     nameTruncated         = 'Chocolatey'
                     packageId             = 'chocolatey'
@@ -70,18 +68,17 @@ Describe "CCM Software functions" {
                 },
                 [pscustomobject]@{ name = 'chocolatey' }
             )
+
             return $foo
         }
     }
 
     It "Returns an object" {
-
         $Software = Get-CCMSoftware
         $Software | Should -BeOfType "System.Management.Automation.PSCustomObject"
     }
 
     It "Should have 16 properties" {
-
         $Software = Get-CCMSoftware -Software Chocolatey
         ($Software | Get-Member -MemberType NoteProperty).Count | Should -Be 7
     }
@@ -90,5 +87,4 @@ Describe "CCM Software functions" {
         $Software = Get-CCMSoftware
         $Software.Count | Should -Be 2
     }
-
 }
