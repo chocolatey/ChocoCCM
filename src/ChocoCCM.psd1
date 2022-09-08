@@ -12,7 +12,7 @@
     RootModule        = 'ChocoCCM.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.1.2'
+    ModuleVersion     = '0.3.0'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
@@ -30,7 +30,7 @@
     Copyright         = 'Chocolatey Software, Inc.'
 
     # Description of the functionality provided by this module
-    Description       = 'This module provides a PowerShell wrapper to Chocolatey Central Management. Requires a Chocolatey For Business license. See https://docs.chocolatey.org/en-us/central-management/ for more information.'
+    Description       = 'This module provides a PowerShell wrapper to Chocolatey Central Management. See https://docs.chocolatey.org/en-us/central-management/ for more information.'
 
     # Minimum version of the PowerShell engine required by this module
     # PowerShellVersion = ''
@@ -131,19 +131,19 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = @('chocolatey', 'central-management', 'automation')
+            Tags         = @('chocolatey', 'central-management', 'automation')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/chocolatey/choco/blob/master/LICENSE'
+            LicenseUri   = 'https://github.com/chocolatey/ChocoCCM/blob/master/LICENSE.md'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri   = 'https://github.com/chocolatey/ChocoCCM'
 
             # A URL to an icon representing this module.
-            # IconUri = ''
+            IconUri      = 'https://img.chocolatey.org/nupkg/chocolateyicon.png'
 
             # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            ReleaseNotes = 'See all - https://docs.chocolatey.org/en-us/central-management/chococcm/release-notes'
         } # End of PSData hashtable
     } # End of PrivateData hashtable
 

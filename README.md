@@ -2,6 +2,22 @@
 
 This module servers to be a PowerShell wrapper to the underlying API that drives pretty much every aspect of Chocolatey Central Management
 
+## Contributing
+
+Happy to accept new features and fixes. Outstanding issues which can be worked on tagged `Up For Grabs` under issues.
+
+### Submitting a PR
+
+Here's the general process of fixing an issue in the DSC Resource Kit:
+1. Fork the repository.
+3. Clone your fork to your machine.
+4. It's preferred to create a non-master working branch where you store updates.
+5. Make changes.
+6. Write pester tests to ensure that the issue is fixed.
+7. Submit a pull request to the development branch.
+9. Make sure your code does not contain merge conflicts.
+10. Address comments (if any).
+
 ## Installation
 
 ### Published Builds
