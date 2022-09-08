@@ -1,5 +1,6 @@
 .vscode/*
 .vscode
-src/gen/generated
+gen/generated
 .DS_Store
 Output/
+.dotnet/

@@ -2,16 +2,16 @@ function Set-CCMNotificationStatus {
     <#
     .SYNOPSIS
     Turn notifications on or off in CCM
-    
+
     .DESCRIPTION
     Manage your notification settings in Central Management. Currently only supports On, or Off
-    
+
     .PARAMETER Enable
     Enables notifications
-    
+
     .PARAMETER Disable
     Disables notifications
-    
+
     .EXAMPLE
     Set-CCMNotificationStatus -Enable
 
@@ -19,41 +19,46 @@ function Set-CCMNotificationStatus {
     Set-CCMNotificationStatus -Disable
 
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/set-ccmnotification-status")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/setccmnotificationstatus")]
     param(
-        [parameter(Mandatory,ParameterSetName="Enabled")]
+        [Parameter(Mandatory, ParameterSetName = "Enabled")]
         [switch]
         $Enable,
 
-        [parameter(Mandatory,ParameterSetName="Disabled")]
+        [Parameter(Mandatory, ParameterSetName = "Disabled")]
         [switch]
         $Disable
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
+
     process {
-
-        switch($PSCmdlet.ParameterSetName){
-            'Enabled' { $status = $true}
-
-            'Disabled'{ $status = $false}
+        switch ($PSCmdlet.ParameterSetName) {
+            'Enabled' {
+                $status = $true
+            }
+            'Disabled' {
+                $status = $false
+            }
         }
 
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/Notification/UpdateNotificationSettings"
-            Method = "PUT"
+            Uri         = "$($protocol)://$hostname/api/services/app/Notification/UpdateNotificationSettings"
+            Method      = "PUT"
             ContentType = "application/json"
-            WebSession = $Session
-            Body = @{
+            WebSession  = $Session
+            Body        = @{
                 receiveNotifications = $status
-                notifications = @(@{
-                    name = "App.NewUserRegistered"
-                    isSubscribed = $true
-                })
+                notifications        = @(
+                    @{
+                        name         = "App.NewUserRegistered"
+                        isSubscribed = $true
+                    }
+                )
             } | ConvertTo-Json
         }
 

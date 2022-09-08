@@ -2,50 +2,49 @@ function New-CCMDeployment {
     <#
     .SYNOPSIS
     Create a new CCM Deployment Plan
-    
+
     .DESCRIPTION
     Creates a new CCM Deployment. This is just a shell. You'll need to add steps with New-CCMDeploymentStep.
-    
+
     .PARAMETER Name
     The name for the deployment
-    
+
     .EXAMPLE
     New-CCMDeployment -Name 'This is awesome'
-    
+
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/new-ccmdeployment")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/newccmdeployment")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [string]
         $Name
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
-    process {
 
+    process {
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/DeploymentPlans/CreateOrEdit"
-            Method = "POST"
+            Uri         = "$($protocol)://$hostname/api/services/app/DeploymentPlans/CreateOrEdit"
+            Method      = "POST"
             ContentType = "application/json"
-            Body = @{ Name = "$Name"} | ConvertTo-Json
-            WebSession = $Session
+            Body        = @{ Name = "$Name" } | ConvertTo-Json
+            WebSession  = $Session
         }
 
-        try{
+        try {
             $record = Invoke-RestMethod @irmParams -ErrorAction Stop
         }
-
         catch {
             throw $_.Exception.Message
         }
 
         [pscustomobject]@{
             name = $Name
-            id = $record.result.id
+            id   = $record.result.id
         }
     }
 }

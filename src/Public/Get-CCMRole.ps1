@@ -2,10 +2,10 @@ function Get-CCMRole {
     <#
     .SYNOPSIS
     Get roles available in Chococlatey Central Management
-    
+
     .DESCRIPTION
-    Return information about roles available in Chocolatey Central Management   
-    
+    Return information about roles available in Chocolatey Central Management
+
     .PARAMETER Name
     The name of a role to query
 
@@ -15,41 +15,38 @@ function Get-CCMRole {
     .EXAMPLE
     Get-CCMRole -Name CCMAdmin
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmrole")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmrole")]
     param(
-
-    [parameter(ParameterSetName="Name")]
+        [Parameter(ParameterSetName = "Name")]
         [string]
         $Name
-
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
-    process {
 
+    process {
         $irmParams = @{
-            Uri = "$($protocol)://$hostname/api/services/app/Role/GetRoles?permission="
-            Method = "GET"
+            Uri         = "$($protocol)://$hostname/api/services/app/Role/GetRoles?permission="
+            Method      = "GET"
             ContentType = "application/json"
-            WebSession = $Session
+            WebSession  = $Session
         }
 
-        try{
+        try {
             $response = Invoke-RestMethod @irmParams -ErrorAction Stop
-        } catch {
+        }
+        catch {
             throw $_.Exception.Message
         }
 
-        switch($PSCmdlet.ParameterSetName){
-
+        switch ($PSCmdlet.ParameterSetName) {
             'Name' {
                 $response.result.items | Where-Object { $_.name -eq $Name }
             }
-
             default {
                 $response.result.items
             }

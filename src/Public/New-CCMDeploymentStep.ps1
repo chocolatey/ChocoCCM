@@ -57,21 +57,18 @@ function New-CCMDeploymentStep {
     New-CCMDeploymentStep -Deployment PowerShell -Name 'From ChocoCCM' -TargetGroup All,PowerShell -Type Advanced -Script {(Get-Content C:\script.txt)}
 
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/new-ccmdeployment-step")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/newccmdeploymentstep")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
-                param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
+                param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMDeployment).Name
 
-
-                If($WordToComplete){
-                    $r.Where{$_ -match "^$WordToComplete"}
+                if ($WordToComplete) {
+                    $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -79,23 +76,20 @@ function New-CCMDeploymentStep {
         [string]
         $Deployment,
 
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [string]
         $Name,
 
-        [parameter()]
+        [Parameter()]
         [ArgumentCompleter(
             {
-                param($Command,$Parameter,$WordToComplete,$CommandAst,$FakeBoundParams)
+                param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMGroup).Name
 
-
-                If($WordToComplete){
-                    $r.Where{$_ -match "^$WordToComplete"}
+                if ($WordToComplete) {
+                    $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -103,102 +97,102 @@ function New-CCMDeploymentStep {
         [string[]]
         $TargetGroup = @(),
 
-        [parameter()]
+        [Parameter()]
         [string]
         $ExecutionTimeoutSeconds = '14400',
 
-        [parameter()]
+        [Parameter()]
         [switch]
         $FailOnError = $true,
 
-        [parameter()]
+        [Parameter()]
         [switch]
         $RequireSuccessOnAllComputers = $false,
 
-        [parameter()]
+        [Parameter()]
         [string[]]
-        $ValidExitCodes = @('0','1605','1614','1641','3010'),
+        $ValidExitCodes = @('0', '1605', '1614', '1641', '3010'),
 
-        [parameter(Mandatory,ParameterSetName="StepType")]
-        [parameter(Mandatory,ParameterSetName="Basic")]
-        [parameter(Mandatory,ParameterSetName="Advanced")]
-        [ValidateSet('Basic','Advanced')]
+        [Parameter(Mandatory, ParameterSetName = "StepType")]
+        [Parameter(Mandatory, ParameterSetName = "Basic")]
+        [Parameter(Mandatory, ParameterSetName = "Advanced")]
+        [ValidateSet('Basic', 'Advanced')]
         [string]
         $Type,
 
-        [parameter(Mandatory,ParameterSetName="Basic")]
-        [ValidateSet('Install','Upgrade','Uninstall')]
+        [Parameter(Mandatory, ParameterSetName = "Basic")]
+        [ValidateSet('Install', 'Upgrade', 'Uninstall')]
         [string]
         $ChocoCommand,
 
-        [parameter(Mandatory,ParameterSetName="Basic")]
+        [Parameter(Mandatory, ParameterSetName = "Basic")]
         [string]
         $PackageName,
 
-        [parameter(Mandatory,ParameterSetName="Advanced")]
+        [Parameter(Mandatory, ParameterSetName = "Advanced")]
         [scriptblock]
         $Script
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
-    process {
 
-        switch($PSCmdlet.ParameterSetName){
+    process {
+        switch ($PSCmdlet.ParameterSetName) {
             'Basic' {
                 $Body = @{
-                    Name = "$Name"
-                    DeploymentPlanId = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
-                    DeploymentStepGroups = @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
-                    ExecutionTimeoutInSeconds = "$ExecutionTimeoutSeconds"
+                    Name                         = "$Name"
+                    DeploymentPlanId             = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
+                    DeploymentStepGroups         = @(
+                        Get-CCMGroup -Group $TargetGroup | Select-Object Name, Id | ForEach-Object {
+                            [pscustomobject]@{ groupId = $_.id; groupName = $_.name }
+                        }
+                    )
+                    ExecutionTimeoutInSeconds    = "$ExecutionTimeoutSeconds"
                     RequireSuccessOnAllComputers = "$RequireSuccessOnAllComputers"
-                    failOnError = "$FailOnError"
-                    validExitCodes = "$($validExitCodes -join ',')"
-                    script = "$($ChocoCommand.ToLower())|$($PackageName)"
-
+                    failOnError                  = "$FailOnError"
+                    validExitCodes               = "$($validExitCodes -join ',')"
+                    script                       = "$($ChocoCommand.ToLower())|$($PackageName)"
                 } | ConvertTo-Json -Depth 3
 
                 $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEdit"
-
-
             }
-
             'Advanced' {
                 $Body = @{
-                    Name = "$Name"
-                    DeploymentPlanId = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
-                    DeploymentStepGroups = @(Get-CCMGroup -Group $TargetGroup | Select-Object Name,Id | ForEach-Object { [pscustomobject]@{groupId = $_.id ; groupName = $_.name}})
-                    ExecutionTimeoutInSeconds = "$ExecutionTimeoutSeconds"
+                    Name                         = "$Name"
+                    DeploymentPlanId             = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
+                    DeploymentStepGroups         = @(
+                        Get-CCMGroup -Group $TargetGroup | Select-Object Name, Id | ForEach-Object {
+                            [pscustomobject]@{ groupId = $_.id; groupName = $_.name }
+                        }
+                    )
+                    ExecutionTimeoutInSeconds    = "$ExecutionTimeoutSeconds"
                     RequireSuccessOnAllComputers = "$RequireSuccessOnAllComputers"
-                    failOnError = "$FailOnError"
-                    validExitCodes = "$($validExitCodes -join ',')"
-                    script = "$($Script.ToString())"
+                    failOnError                  = "$FailOnError"
+                    validExitCodes               = "$($validExitCodes -join ',')"
+                    script                       = "$($Script.ToString())"
                 } | ConvertTo-Json -Depth 3
 
                 $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEditPrivileged"
-
-
             }
         }
 
         $irmParams = @{
-            Uri = "$($Uri)"
-            Method = "POST"
+            Uri         = "$($Uri)"
+            Method      = "POST"
             ContentType = "application/json"
-            WebSession = $Session
-            Body = $Body
-
+            WebSession  = $Session
+            Body        = $Body
         }
 
-        try{
+        try {
             $null = Invoke-RestMethod @irmParams -ErrorAction Stop
         }
-        catch{
+        catch {
             throw $_.Exception.Message
         }
-
     }
 }

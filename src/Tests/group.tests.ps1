@@ -1,43 +1,41 @@
-$module = (Get-ChildItem "$($env:BuildRepositoryLocalPath)" -Recurse -Filter *.psd1).FullName[1]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseCorrectCasing', '', Justification = 'Rule is tripping over non-issues in this file')]
+param()
+
+$module = (Get-ChildItem "$PSScriptRoot\.." -Recurse -Filter *.psd1)[0].FullName
+
 
 Import-Module $module -Force
 
-Function Add-CCMGroup {
-    
+function Add-CCMGroup {
     Invoke-RestMethod -Uri 'https://google.com'
 }
 
-Function Add-CCMGroupMember {
+function Add-CCMGroupMember {
+    Invoke-RestMethod -Uri 'https://google.com'
+}
+
+function Get-CCMGroup {
+    param($Group, $Id)
 
     Invoke-RestMethod -Uri 'https://google.com'
 }
 
-Function Get-CCMGroup {
-    Param($Group, $Id)
+function Get-CCMGroupMember {
+    param()
 
     Invoke-RestMethod -Uri 'https://google.com'
-
 }
 
-Function Get-CCMGroupMember {
-    Param()
+function Remove-CCMGroupMember {
+    param()
 
     Invoke-RestMethod -Uri 'https://google.com'
-
 }
 
-Function Remove-CCMGroupMember {
-    Param()
+function Set-CCMGroup {
+    param()
 
     Invoke-RestMethod -Uri 'https://google.com'
-
-}
-
-Function Set-CCMGroup {
-    Param()
-
-    Invoke-RestMethod -Uri 'https://google.com'
-
 }
 
 Describe "Get-CCMGroup Tests" {
@@ -54,7 +52,6 @@ Describe "Get-CCMGroup Tests" {
             }
 
             return $foo
-
         }
         else {
 
@@ -72,16 +69,13 @@ Describe "Get-CCMGroup Tests" {
     }
 
     It "Returns a PSCustomObject" {
-
         $group = Get-CCMGroup
         $group | Should -BeOfType "System.Management.Automation.PSCustomObject"
-
     }
 
     It "Should have 7 properties" {
-
         $group = Get-CCMGroup -Group Pester
-        ($Group | Get-member -MemberType NoteProperty).Count | Should -Be 7
+        ($group | Get-Member -MemberType NoteProperty).Count | Should -Be 7
     }
 
     It "Can return multiple objects" {
@@ -98,10 +92,10 @@ Describe "Get-CCMGroup Tests" {
         $group = Get-CCMGroup -Group Pester
         'AllComputersAreAvailableForDeploymentsBasedOnLicenseCount' | Should -BeIn ($group | Get-Member -MemberType NoteProperty).Name
     }
-    
+
     It "Should have an 'AllComputersAreOptedIntoDeploymentBasedOnConfig' Property" {
         $group = Get-CCMGroup -Group Pester
-        'allComputerAreOptedIntoDeploymentBasedOnConfig' | Should -BeIn ($group | Get-member).name
+        'allComputerAreOptedIntoDeploymentBasedOnConfig' | Should -BeIn ($group | Get-Member).name
     }
 
     It "Should have a 'Description' Property" {
@@ -123,32 +117,27 @@ Describe "Get-CCMGroup Tests" {
         $group = Get-CCMGroup -Group Pester
         'TotalComputerCount' | Should -BeIn ($Group | Get-Member).Name
     }
-
 }
 
 Describe "Add-CCMGroup Tests" {
+
     Mock Invoke-RestMethod {
-       
-            $group = [pscustomobject]@{
-                name        = 'Foo'
-                description = 'Some description'
-                groups      = $null
-                computers   = @([pscustomobject]@{name ='foo'; id= 1},[pscustomobject]@{name='bob';id=2})
-            }
-        
+        $group = [pscustomobject]@{
+            name        = 'Foo'
+            description = 'Some description'
+            groups      = $null
+            computers   = @([pscustomobject]@{name = 'foo'; id = 1 }, [pscustomobject]@{name = 'bob'; id = 2 })
+        }
 
         return $group
     }
 
-    It "Returns a PSCustomObject" { 
-        $group = Add-CCMGroup -Name 'Foo' -Description 'Funky Pester Test' -Computer @([pscustomobject]@{name = 'foo'; id = 1 }, [pscustomobject]@{name = 'bob'; id = 2 })
+    It "Returns a PSCustomObject" {
+        $group = Add-CCMGroup -Name 'Foo' -Description 'Funky Pester Test' -Computer @(
+            [pscustomobject]@{name = 'foo'; id = 1 }
+            [pscustomobject]@{name = 'bob'; id = 2 }
+        )
+
         $group | Should -BeOfType "System.Management.Automation.PSCustomObject"
     }
-
-    It "Should have 4 properties" {
-
-        $group = Add-CCMGroup
-        ($group | Get-Member -MemberType NoteProperty).Count | Should -BeExactly 4cd ..
-    }
 }
-

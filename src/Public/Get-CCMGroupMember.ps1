@@ -2,32 +2,29 @@ function Get-CCMGroupMember {
     <#
     .SYNOPSIS
     Returns information about a CCM group's members
-    
+
     .DESCRIPTION
     Return detailed group information from Chocolatey Central Management
-    
+
     .PARAMETER Group
     The Group to query
-    
+
     .EXAMPLE
     Get-CCMGroupMember -Group "WebServers"
-    
+
     #>
-    [cmdletBinding(HelpUri="https://chocolatey.org/docs/get-ccmgroup-member")]
+    [CmdletBinding(HelpUri = "https://docs.chocolatey.org/en-us/central-management/chococcm/functions/getccmgroupmember")]
     param(
-        [parameter(Mandatory)]
+        [Parameter(Mandatory)]
         [ArgumentCompleter(
             {
                 param($Command, $Parameter, $WordToComplete, $CommandAst, $FakeBoundParams)
                 $r = (Get-CCMGroup -All).Name
-                
 
-                If ($WordToComplete) {
+                if ($WordToComplete) {
                     $r.Where{ $_ -match "^$WordToComplete" }
                 }
-
-                Else {
-
+                else {
                     $r
                 }
             }
@@ -37,10 +34,11 @@ function Get-CCMGroupMember {
     )
 
     begin {
-        if(-not $Session){
+        if (-not $Session) {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
     }
+
     process {
         $Id = (Get-CCMGroup -Group $Group).Id
         $irmParams = @{
@@ -67,15 +65,13 @@ function Get-CCMGroupMember {
         $record.result.groups | ForEach-Object {
             $gCollection.Add($_)
         }
-       
+
         [pscustomobject]@{
             Name        = $record.result.Name
             Description = $record.result.Description
             Groups      = @($gCollection)
             Computers   = @($cCollection)
             CanDeploy   = $record.result.isEligibleForDeployments
-        } 
-
-        
+        }
     }
 }
