@@ -62,10 +62,9 @@ function Add-CCMGroup {
                 [pscustomobject]@{ computerId = $Cresult }
             }
         }
-		
+
         $GroupCollection = foreach ($item in $Group) {
             if ($item -in $current.groups.subGroupName) {
-                Write-Warning "Skipping $item, already exists"
                 Write-Warning "Skipping $item, already exists"
             }
             else {
@@ -74,8 +73,6 @@ function Add-CCMGroup {
                 [pscustomobject]@{subGroupId = $Gresult }
             }
         }
-
-        $processedComputers = $ComputerCollection
 
         $processedComputers = $ComputerCollection
         $processedGroups = $GroupCollection
