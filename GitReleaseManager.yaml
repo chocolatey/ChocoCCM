@@ -27,6 +27,6 @@ close:
     The release is available on:
 
     - [GitHub Release](https://github.com/{owner}/{repository}/releases/tag/{milestone})
-    - [NuGet Package](https://www.powershellgallery.com/packages/{repository}/{milestone})
+    - [PowerShell Gallery](https://www.powershellgallery.com/packages/{repository}/{milestone})
 
     Your **[GitReleaseManager](https://github.com/GitTools/GitReleaseManager)** bot :package::rocket:
