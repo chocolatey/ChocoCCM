@@ -3,7 +3,7 @@
 # the `module.psm1` script.
 
 $filesToImport = Get-Item @(
-    "$PSScriptRoot\module.psm1"
+    "$PSScriptRoot\module.ps1"
     "$PSScriptRoot\Public\*.ps1"
     "$PSScriptRoot\Private\*.ps1"
 )

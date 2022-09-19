@@ -160,7 +160,7 @@ task Build Clean, InstallGitVersion, ScriptAnalyzer, {
     $manifest = Copy-Item "$script:SourceFolder/ChocoCCM.psd1" -Destination "$OutputDirectory/ChocoCCM" -PassThru
 
     $moduleScripts = @(
-        Get-Item "$script:SourceFolder/module.psm1"
+        Get-Item "$script:SourceFolder/module.ps1"
         Get-Item "$script:SourceFolder/Private/*.ps1"
         Get-Item "$script:SourceFolder/Public/*.ps1"
     )
