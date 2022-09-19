@@ -57,15 +57,27 @@ function Remove-CCMGroupMember {
 
     process {
         $currentMembers = Get-CCMGroupMember -Group $Group
-        $G = Get-CCMGroup -Group $Group
-        $currentMembers | Add-Member -MemberType NoteProperty -Name Id -Value $G.Id
+        $computers = Get-CCMComputer
+        $groups = Get-CCMGroup
 
         foreach ($c in $ComputerMember) {
-            $currentMembers.Computers = @($($currentMembers.Computers | Where-Object { $_.ComputerName -ne $c }))
+            $cId = $computers | Where-Object { $_.Name -eq $c } | Select-Object -ExpandProperty Id
+            if (-not $cId) {
+                Write-Warning "No computer with the name $c was found, cannot remove it from the group"
+                continue
+            }
+
+            $currentMembers.Computers = @($currentMembers.Computers | Where-Object { $_.computerId -ne $cId })
         }
 
         foreach ($g in $GroupMember) {
-            $currentMembers.Groups = @($($currentMembers.Groups | Where-Object { $_.subGroupName -ne $g }))
+            $gId = $groups | Where-Object { $_.Name -eq $g } | Select-Object -ExpandProperty Id
+            if (-not $gId) {
+                Write-Warning "No group with the name $g was found, cannot remove it from the group"
+                continue
+            }
+
+            $currentMembers.Groups = @($currentMembers.Groups | Where-Object { $_.subGroupId -ne $g })
         }
 
         if (-not $currentMembers.Groups) {

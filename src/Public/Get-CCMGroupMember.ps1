@@ -41,37 +41,15 @@ function Get-CCMGroupMember {
 
     process {
         $Id = (Get-CCMGroup -Group $Group).Id
-        $irmParams = @{
-            Uri         = "$($protocol)://$hostname/api/services/app/Groups/GetGroupForEdit?id=$Id"
-            Method      = "GET"
-            ContentType = "application/json"
-            WebSession  = $Session
-        }
-
-        try {
-            $record = Invoke-RestMethod @irmParams -ErrorAction Stop
-        }
-        catch {
-            throw $_.Exception.Message
-        }
-
-        $cCollection = [System.Collections.Generic.List[psobject]]::new()
-        $gCollection = [System.Collections.Generic.List[psobject]]::new()
-
-        $record.result.computers | ForEach-Object {
-            $cCollection.Add($_)
-        }
-
-        $record.result.groups | ForEach-Object {
-            $gCollection.Add($_)
-        }
+        $result = Get-CCMGroup -Id $Id
 
         [pscustomobject]@{
-            Name        = $record.result.Name
-            Description = $record.result.Description
-            Groups      = @($gCollection)
-            Computers   = @($cCollection)
-            CanDeploy   = $record.result.isEligibleForDeployments
+            Id          = $result.Id
+            Name        = $result.Name
+            Description = $result.Description
+            Groups      = @($result.Groups | Where-Object { $_ })
+            Computers   = @($result.Computers | Where-Object { $_ })
+            CanDeploy   = $result.isEligibleForDeployments
         }
     }
 }

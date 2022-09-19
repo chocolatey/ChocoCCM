@@ -57,7 +57,7 @@ function Set-CCMGroup {
             throw "Not authenticated! Please run Connect-CCMServer first!"
         }
 
-        $existing = Get-CCMGroup -Group $Group
+        $existing = Get-CCMGroupMember -Group $Group
     }
 
     process {
@@ -80,11 +80,11 @@ function Set-CCMGroup {
             Method      = "POST"
             ContentType = "application/json"
             Body        = @{
-                Id          = $($existing.id)
+                Id          = $existing.id
                 Name        = $Name
                 Description = $Description
-                Groups      = @()
-                Computers   = @()
+                Groups      = $existing.Groups
+                Computers   = $existing.Computers
             } | ConvertTo-Json
             WebSession  = $Session
         }
