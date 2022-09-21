@@ -70,7 +70,7 @@ function Add-CCMGroup {
             else {
                 $Gresult = $groups | Where-Object Name -EQ $item | Select-Object -ExpandProperty Id
                 # Drop object into $computerCollection
-                [pscustomobject]@{subGroupId = $Gresult }
+                [pscustomobject]@{ subGroupId = $Gresult }
             }
         }
 
