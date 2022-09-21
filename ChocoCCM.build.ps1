@@ -177,7 +177,7 @@ task Build Clean, InstallGitVersion, ScriptAnalyzer, {
         ModuleVersion = $versionInfo.MajorMinorPatch
     }
 
-    $prerelease = $versionInfo.PreReleaseLabel -replace '-'
+    $prerelease = $versionInfo.NuGetPreReleaseTagV2 -replace '[^a-z0-9]'
     if ($prerelease) {
         if ($prerelease -notmatch '^(alpha|beta)') {
             $prerelease = "alpha$prerelease"
