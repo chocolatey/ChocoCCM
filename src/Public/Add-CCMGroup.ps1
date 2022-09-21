@@ -82,18 +82,8 @@ function Add-CCMGroup {
         $body = @{
             Name        = $Name
             Description = $Description
-            Groups      = if (-not $processedGroups) {
-                @()
-            }
-            else {
-                @(, $processedGroups)
-            }
-            Computers   = if (-not $processedComputers) {
-                @()
-            }
-            else {
-                @(, $processedComputers)
-            }
+            Groups      = @($processedGroups)
+            Computers   = @($processedComputers)
         } | ConvertTo-Json
 
         $irmParams = @{

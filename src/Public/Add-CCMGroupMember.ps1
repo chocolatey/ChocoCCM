@@ -62,8 +62,7 @@ function Add-CCMGroupMember {
         $ComputerCollection = [System.Collections.Generic.List[psobject]]::new()
         $GroupCollection = [System.Collections.Generic.List[psobject]]::new()
 
-        $id = Get-CCMGroup -Group $name | Select-Object -ExpandProperty Id
-        $current = Get-CCMGroup -Id $id | Select-Object *
+        $current = Get-CCMGroupMember -Group $name | Select-Object *
         $current.computers | ForEach-Object { $ComputerCollection.Add([pscustomobject]@{computerId = "$($_.computerId)" }) }
     }
 
@@ -71,47 +70,44 @@ function Add-CCMGroupMember {
         switch ($PSCmdlet.ParameterSetName) {
             { $Computer } {
                 foreach ($c in $Computer) {
-                    if ($c -in $current.computers.computerName) {
-                        Write-Warning "Skipping $c, already exists"
+                    $computerId = $computers | Where-Object { $_.Name -eq $c } | Select-Object -ExpandProperty Id
+                    if (-not $computerId) {
+                        Write-Warning "A computer with the name $c could not be found, skipping adding it to the group"
+                        continue
+                    }
+
+                    if ($computerId -in $current.computers.computerId) {
+                        Write-Warning "Skipping $c, already exists in this group"
                     }
                     else {
-                        $Cresult = $computers | Where-Object { $_.Name -eq "$c" } | Select-Object  Id
-                        $ComputerCollection.Add([pscustomobject]@{ computerId = "$($Cresult.Id)" })
+                        $ComputerCollection.Add([pscustomobject]@{ computerId = $computerId })
                     }
                 }
-
-                $processedComputers = $ComputerCollection
             }
             'Group' {
                 foreach ($g in $Group) {
-                    if ($g -in $current.groups.subGroupName) {
-                        Write-Warning "Skipping $g, already exists"
+                    $gId = $groups | Where-Object { $_.Name -eq $g } | Select-Object -ExpandProperty Id
+                    if (-not $gId) {
+                        Write-Warning "A group with the name $g could not be found, skipping adding it to the group"
+                        continue
+                    }
+
+                    if ($gId -in $current.groups.subGroupId) {
+                        Write-Warning "Skipping $g, already exists in this group"
                     }
                     else {
-                        $Gresult = $groups | Where-Object { $_.Name -eq $g } | Select-Object Id
-                        $GroupCollection.Add([pscustomobject]@{ subGroupId = "$($Gresult.Id)" })
+                        $GroupCollection.Add([pscustomobject]@{ subGroupId = $gId })
                     }
                 }
-                $processedGroups = $GroupCollection
             }
         }
 
         $body = @{
-            Name        = $Name
-            Id          = ($groups | Where-Object { $_.name -eq "$Name" } | Select-Object  -ExpandProperty Id)
-            Description = ($groups | Where-Object { $_.name -eq "$Name" } | Select-Object  -ExpandProperty Description)
-            Groups      = if (-not $processedGroups) {
-                @()
-            }
-            else {
-                @(, $processedGroups)
-            }
-            Computers   = if (-not $processedComputers) {
-                @()
-            }
-            else {
-                @(, $processedComputers)
-            }
+            Name        = $current.Name
+            Id          = $current.Id
+            Description = $current.Description
+            Groups      = @($GroupCollection)
+            Computers   = @($ComputerCollection)
         } | ConvertTo-Json -Depth 3
 
         Write-Verbose $body
