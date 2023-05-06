@@ -49,7 +49,7 @@ function Get-CCMComputer {
         switch ($PSCmdlet.ParameterSetName) {
             "Computer" {
                 foreach ($c in $computer) {
-                    [pscustomobject]$records.result | Where-Object { $_.name -match "$c" }
+                    [pscustomobject]$records.result | Where-Object { $_.name -eq $c }
                 }
             }
             "Id" {

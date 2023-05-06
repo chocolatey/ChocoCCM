@@ -11,7 +11,7 @@ Describe "Get-CCMComputer" {
             $Uri.AbsolutePath -eq "/api/services/app/Computers/GetAll"
         } {
             @{
-                result =  1..9 | ForEach-Object {
+                result =  1..20 | ForEach-Object {
                     [PSCustomObject]@{
                         name = "Computer $_"
                     }
@@ -41,7 +41,7 @@ Describe "Get-CCMComputer" {
         }
 
         It "Returns All Computers" {
-            $Result | Should -HaveCount 9
+            $Result | Should -HaveCount 20
         }
     }
 
@@ -68,9 +68,7 @@ Describe "Get-CCMComputer" {
     Context "Getting computers by Name" {
         BeforeAll {
             $TestParams = @{
-                # This test fails when Computer 1 and Computer 10 are both selected, due to the naive match
-                Computer = 1..9 | Get-Random -Count (Get-Random -Minimum 1 -Maximum 9) | ForEach-Object { "Computer $($_)" }
-                # Computer = 1..10 | Get-Random -Count (Get-Random -Minimum 1 -Maximum 10) | ForEach-Object { "Computer $($_)" }
+                Computer = 1..10 | Get-Random -Count (Get-Random -Minimum 1 -Maximum 10) | ForEach-Object { "Computer $($_)" }
             }
             $Result = Get-CCMComputer @TestParams
         }
