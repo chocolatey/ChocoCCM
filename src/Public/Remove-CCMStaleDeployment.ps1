@@ -29,7 +29,11 @@ function Remove-CCMStaleDeployment {
         #>
         $badStates = @(0, 2, 8)
         if ($PSCmdlet.ShouldProcess("$Deployment", "DELETE")) {
-            Get-CCMDeployment -All | Where-Object { $_.CreationDate -ge (Get-Date).AddDays(-$Age) -and $null -eq $_.StartDateTimeUtc -and $_.Result -in $badStates } | Remove-CCMDeployment
+            Get-CCMDeployment | Where-Object {
+                $_.CreationDate -ge (Get-Date).AddDays(-$Age) -and
+                $null -eq $_.StartDateTimeUtc -and
+                $_.Result -in $badStates
+            } | Remove-CCMDeployment
         }
     }
 }
