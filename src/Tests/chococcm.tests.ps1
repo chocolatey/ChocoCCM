@@ -16,5 +16,3 @@ Describe "Module Import Checks" {
         { Get-Command -Module ChocoCCM } | Should -Not -Throw
     }
 }
-
-#TODO: Lots of mocks for actual function tests
