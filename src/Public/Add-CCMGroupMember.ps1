@@ -111,18 +111,8 @@ function Add-CCMGroupMember {
             Name        = $current.Name
             Id          = $current.Id
             Description = $current.Description
-            Groups      = if ($GroupCollection.Count -gt 0) {
-                $GroupCollection.ToArray()
-            }
-            else {
-                $null
-            }
-            Computers   = if ($ComputerCollection.Count -gt 0) {
-                $ComputerCollection.ToArray()
-            }
-            else {
-                $null
-            }
+            Groups      = $GroupCollection
+            Computers   = $ComputerCollection
         } | ConvertTo-Json -Depth 3
 
         Write-Verbose $body
