@@ -157,15 +157,17 @@ function New-CCMDeploymentStep {
                     name                           = $Name
                     deploymentPlanId               = (Get-CCMDeployment -Name $Deployment).id
                     deploymentStepGroups           = @(
-                        Get-CCMGroup -Group $TargetGroup | Select-Object -Property @(
-                            @{ Name = "groupId"; Expression = { $_.id } }
-                            @{ Name = "groupName"; Expression = { $_.name } }
-                        )
+                        if ($TargetGroup) {
+                            Get-CCMGroup -Group $TargetGroup | Select-Object -Property @(
+                                @{ Name = "groupId"; Expression = { $_.id } }
+                                @{ Name = "groupName"; Expression = { $_.name } }
+                            )
+                        }
                     )
                     executionTimeoutInSeconds      = $ExecutionTimeout
                     machineContactTimeoutInMinutes = $MachineContactTimeout
-                    requireSuccessOnAllComputers   = $RequireSuccessOnAllComputers
-                    failOnError                    = $FailOnError
+                    requireSuccessOnAllComputers   = $RequireSuccessOnAllComputers.IsPresent
+                    failOnError                    = $FailOnError.IsPresent
                     validExitCodes                 = $ValidExitCodes -join ','
                     script                         = "{0}|{1}" -f @($ChocoCommand.ToLower(), $PackageName)
                 } | ConvertTo-Json -Depth 3
@@ -174,18 +176,20 @@ function New-CCMDeploymentStep {
             }
             'Advanced' {
                 $Body = @{
-                    Name                         = "$Name"
-                    DeploymentPlanId             = "$(Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id)"
+                    Name                         = $Name
+                    DeploymentPlanId             = Get-CCMDeployment -Name $Deployment | Select-Object -ExpandProperty Id
                     DeploymentStepGroups         = @(
-                        Get-CCMGroup -Group $TargetGroup | Select-Object Name, Id | ForEach-Object {
-                            [pscustomobject]@{ groupId = $_.id; groupName = $_.name }
+                        if ($TargetGroup) {
+                            Get-CCMGroup -Group $TargetGroup | Select-Object Name, Id | ForEach-Object {
+                                [pscustomobject]@{ groupId = $_.id; groupName = $_.name }
+                            }
                         }
                     )
-                    ExecutionTimeoutInSeconds    = "$ExecutionTimeoutSeconds"
-                    RequireSuccessOnAllComputers = "$RequireSuccessOnAllComputers"
-                    failOnError                  = "$FailOnError"
-                    validExitCodes               = "$($validExitCodes -join ',')"
-                    script                       = "$($Script.ToString())"
+                    ExecutionTimeoutInSeconds    = $ExecutionTimeoutSeconds
+                    RequireSuccessOnAllComputers = $RequireSuccessOnAllComputers.IsPresent
+                    failOnError                  = $FailOnError.IsPresent
+                    validExitCodes               = $ValidExitCodes -join ','
+                    script                       = $Script.ToString()
                 } | ConvertTo-Json -Depth 3
 
                 $Uri = "$($protocol)://$hostname/api/services/app/DeploymentSteps/CreateOrEditPrivileged"
