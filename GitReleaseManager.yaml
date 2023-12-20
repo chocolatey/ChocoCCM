@@ -35,4 +35,4 @@ close:
     - [GitHub Release](https://github.com/{owner}/{repository}/releases/tag/{milestone})
     - [PowerShell Gallery](https://www.powershellgallery.com/packages/{repository}/{milestone})
 
-    Your **[GitReleaseManager](https://github.com/GitTools/GitReleaseManager)** bot :package::rocket:
+    Your **[GitReleaseManager](https://github.com/GitTools/GitReleaseManager)** bot :package: :rocket:
