@@ -82,7 +82,6 @@
         'Remove-CCMGroupMember'
         'Get-CCMDeployment'
         'Get-CCMDeploymentStep'
-        'Get-CCMDeploymentStepResult'
         'New-CCMDeployment'
         'New-CCMDeploymentStep'
         'Set-CCMDeploymentStep'

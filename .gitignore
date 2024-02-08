@@ -4,3 +4,5 @@ gen/generated
 .DS_Store
 Output/
 .dotnet/
+coverage.xml
+testResults.xml
