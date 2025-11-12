@@ -12,9 +12,12 @@ Describe "Module Import Checks" {
         { Import-Module $module } | Should -Not -Throw
     }
 
-    It "Should return all public functions" {
-        { Get-Command -Module ChocoCCM } | Should -Not -Throw
+    It "Should export all expected public functions" {
+        $ExportedFunctions = (Get-Command -Module ChocoCCM -CommandType Function).Name | Sort-Object
+
+        $DataFile = Import-Metadata -Path "$PSScriptRoot\..\ChocoCCM.psd1"
+        $ExpectedFunctions = $DataFile.FunctionsToExport | Sort-Object
+
+        $ExportedFunctions | Should -Be $ExpectedFunctions
     }
 }
-
-#TODO: Lots of mocks for actual function tests
